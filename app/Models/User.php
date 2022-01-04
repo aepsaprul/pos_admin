@@ -15,7 +15,7 @@ class User extends Authenticatable
     /**
      * The attributes that are mass assignable.
      *
-     * @var array<int, string>
+     * @var string[]
      */
     protected $fillable = [
         'name',
@@ -26,7 +26,7 @@ class User extends Authenticatable
     /**
      * The attributes that should be hidden for serialization.
      *
-     * @var array<int, string>
+     * @var array
      */
     protected $hidden = [
         'password',
@@ -36,9 +36,23 @@ class User extends Authenticatable
     /**
      * The attributes that should be cast.
      *
-     * @var array<string, string>
+     * @var array
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * Get all of the navSubUser for the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+
+    public function employee() {
+        return $this->belongsTo(Employee::class, 'employee_id', 'id');
+    }
+
+    public function roles() {
+        return $this->belongsTo(Roles::class, 'roles_id', 'id');
+    }
 }

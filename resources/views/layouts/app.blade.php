@@ -29,7 +29,7 @@
 
     @yield('style')
 </head>
-<body class="nav-md">
+<body class="nav-md footer_fixed">
     <div class="container body">
         <div class="main_container">
             <div class="col-md-3 left_col menu_fixed">
@@ -64,53 +64,53 @@
                                 <li>
                                     <a><i class="fa fa-database"></i> Master <span class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
-                                        <li><a href="#">Jabatan</a></li>
-                                        <li><a href="#">Karyawan</a></li>
-                                        <li><a href="#">Navigasi</a></li>
-                                        <li><a href="#">Roles</a></li>
-                                        <li><a href="#">User</a></li>
-                                        <li><a href="#">Kategori Produk</a></li>
-                                        <li><a href="#">Produk</a></li>
-                                        <li><a href="#">Toko</a></li>
+                                        <li><a href="{{ route('employee.index') }}">Karyawan</a></li>
+                                        <li><a href="{{ route('position.index') }}">Jabatan</a></li>
+                                        <li><a href="{{ route('nav.index') }}">Navigasi</a></li>
+                                        <li><a href="{{ route('roles.index') }}">Roles</a></li>
+                                        <li><a href="{{ route('user.index') }}">User</a></li>
+                                        <li><a href="{{ route('product_category.index') }}">Kategori Produk</a></li>
+                                        <li><a href="{{ route('product.index') }}">Produk</a></li>
+                                        <li><a href="{{ route('shop.index') }}">Toko</a></li>
                                     </ul>
                                 </li>
                                 <li>
                                     <a><i class="fa fa-exchange"></i> Transaksi Gudang <span class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
-                                        <li><a href="#">Produk Masuk</a></li>
-                                        <li><a href="#">Produk Keluar</a></li>
+                                        <li><a href="{{ route('product_in.index') }}">Produk Masuk</a></li>
+                                        <li><a href="{{ route('inventory_invoice.index') }}">Produk Keluar</a></li>
                                     </ul>
                                 </li>
                                 <li>
-                                    <a href="{{ url('home') }}"><i class="fa fa-truck"></i> Supplier</a>
+                                    <a href="{{ route('supplier.index') }}"><i class="fa fa-truck"></i> Supplier</a>
                                 </li>
                                 <li>
                                     <a><i class="fa fa-copy"></i> Laporan <span class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
-                                        <li><a href="#">Penjualan</a></li>
-                                        <li><a href="#">Produk</a></li>
-                                        <li><a href="#">Customer</a></li>
-                                        <li><a href="#">Laba Rugi</a></li>
+                                        <li><a href="{{ route('report.index') }}">Penjualan</a></li>
+                                        <li><a href="{{ route('report.customer_index') }}">Produk</a></li>
+                                        <li><a href="{{ route('report.product_index') }}">Customer</a></li>
+                                        <li><a href="{{ route('report.income_index') }}">Laba Rugi</a></li>
                                     </ul>
                                 </li>
                                 <li>
-                                    <a href="{{ url('home') }}"><i class="fa fa-archive"></i> Produk</a>
+                                    <a href="{{ route('product_shop.index') }}"><i class="fa fa-archive"></i> Produk</a>
                                 </li>
                                 <li>
                                     <a><i class="fa fa-exchange"></i> Transaksi Toko <span class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
-                                        <li><a href="#">Produk Masuk</a></li>
-                                        <li><a href="#">Penjualan</a></li>
+                                        <li><a href="{{ route('received_product.index') }}">Produk Masuk</a></li>
+                                        <li><a href="{{ route('invoice.index') }}">Penjualan</a></li>
                                     </ul>
                                 </li>
                                 <li>
-                                    <a href="{{ url('home') }}"><i class="fa fa-users"></i> Customer</a>
+                                    <a href="{{ route('customer.index') }}"><i class="fa fa-users"></i> Customer</a>
                                 </li>
                                 <li>
                                     <a><i class="fa fa-exchange"></i> Kasir <span class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
-                                        <li><a href="#">Cash</a></li>
-                                        <li><a href="#">Tempo</a></li>
+                                        <li><a href="{{ route('cashier.index') }}">Cash</a></li>
+                                        <li><a href="{{ route('cashier.credit') }}">Tempo</a></li>
                                     </ul>
                                 </li>
                             </ul>

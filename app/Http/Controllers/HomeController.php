@@ -2,7 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Invoice;
+use App\Models\Product;
+use App\Models\Sales;
+use App\Models\SalesTemporary;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
