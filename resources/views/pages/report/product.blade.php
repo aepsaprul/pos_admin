@@ -1,65 +1,87 @@
 @extends('layouts.app')
 
 @section('style')
-<link href="{{ asset('lib/datatables/css/dataTables.bootstrap5.min.css') }}" rel="stylesheet">
-<link rel="stylesheet" href="{{ asset('lib/select2/css/select2.min.css') }}">
 
-<style>
-    .col-md-12,
-    .col-md-12 button,
-    .col-md-12 a {
-        font-size: 12px;
-    }
-    .fas {
-        font-size: 14px;
-    }
-    .btn {
-        padding: .2rem .6rem;
-    }
-</style>
+<!-- Datatables -->
+<link href="{{ asset('theme/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css') }}" rel="stylesheet">
+<link href="{{ asset('theme/vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css') }}" rel="stylesheet">
+<link href="{{ asset('theme/vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css') }}" rel="stylesheet">
+<link href="{{ asset('theme/vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css') }}" rel="stylesheet">
+<link href="{{ asset('theme/vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css') }}" rel="stylesheet">
+
+{{-- select2 --}}
+<link rel="stylesheet" href="{{ asset('theme/vendors/select2/dist/css/select2.min.css') }}">
+
 @endsection
 
 @section('content')
-<div class="container-fluid">
-    <div class="row justify-content-center">
-        <div class="col-md-12">
-            <h6 class="text-uppercase text-center">Data Laporan Produk</h6>
-            @if (session('status'))
-                <div class="alert alert-success">
-                    {{ session('status') }}
-                </div>
-            @endif
-
-            <div class="row mb-2 mt-1">
-                <div class="col-md-2">
-                    <select name="opsi" id="opsi" class="form-control form-control-sm">
-                        <option value="">--Pilih Opsi--</option>
-                        @foreach ($product_shops as $item)
-                            <option value="{{ $item->product->id }}">{{ $item->product->product_name }}</option>
-                        @endforeach
-                    </select>
-                </div>
+<!-- page content -->
+<div class="right_col" role="main">
+    <div class="">
+        <div class="page-title">
+            <div class="title_left">
+                <h3>Data Laporan Penjualan</h3>
             </div>
+        </div>
 
-            <div class="card">
-                <div class="card-body">
+        <div class="clearfix"></div>
 
+        <div class="row">
+            <div class="col-md-12 col-sm-12 ">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <div class="row mb-2 mt-1">
+                            <div class="col-md-2">
+                                <select name="opsi" id="opsi" class="form-control form-control-sm">
+                                    <option value="">--Pilih Opsi--</option>
+                                    @foreach ($product_shops as $item)
+                                        <option value="{{ $item->product->id }}">{{ $item->product->product_name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="card-box table-responsive">
+                                    <div class="data-table">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="mb-5"></div>
     </div>
 </div>
+<!-- /page content -->
 
 @endsection
 
 @section('script')
-<script src="{{ asset('lib/datatables/js/jquery.dataTables.min.js') }}"></script>
-<script src="{{ asset('lib/datatables/js/dataTables.bootstrap5.min.js') }}"></script>
-<script src="{{ asset('lib/datatables/js/dataTables.buttons.min.js') }}"></script>
-<script src="{{ asset('lib/datatables/js/jszip.min.js') }}"></script>
-<script src="{{ asset('lib/datatables/js/buttons.html5.min.js') }}"></script>
-<script src="{{ asset('lib/select2/js/select2.min.js') }}"></script>
+
+<!-- Datatables -->
+<script src="{{ asset('theme/vendors/datatables.net/js/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('theme/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js') }}"></script>
+<script src="{{ asset('theme/vendors/datatables.net-buttons/js/dataTables.buttons.min.js') }}"></script>
+<script src="{{ asset('theme/vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js') }}"></script>
+<script src="{{ asset('theme/vendors/datatables.net-buttons/js/buttons.flash.min.js') }}"></script>
+<script src="{{ asset('theme/vendors/datatables.net-buttons/js/buttons.html5.min.js') }}"></script>
+<script src="{{ asset('theme/vendors/datatables.net-buttons/js/buttons.print.min.js') }}"></script>
+<script src="{{ asset('theme/vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js') }}"></script>
+<script src="{{ asset('theme/vendors/datatables.net-keytable/js/dataTables.keyTable.min.js') }}"></script>
+<script src="{{ asset('theme/vendors/datatables.net-responsive/js/dataTables.responsive.min.js') }}"></script>
+<script src="{{ asset('theme/vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js') }}"></script>
+<script src="{{ asset('theme/vendors/datatables.net-scroller/js/dataTables.scroller.min.js') }}"></script>
+<script src="{{ asset('theme/vendors/jszip/dist/jszip.min.js') }}"></script>
+<script src="{{ asset('theme/vendors/pdfmake/build/pdfmake.min.js') }}"></script>
+<script src="{{ asset('theme/vendors/pdfmake/build/vfs_fonts.js') }}"></script>
+
+{{-- select2 --}}
+<script src="{{ asset('theme/vendors/select2/dist/js/select2.min.js') }}"></script>
 
 <script>
     $(document).ready(function() {
@@ -69,29 +91,25 @@
 
         salesAll();
         function salesAll() {
-            $('.card-body').empty();
+            $('.data-table').empty();
             $.ajax({
                 url: '{{ URL::route('report.product_get_data') }}',
                 type: 'GET',
                 success: function(response) {
                     var invoice_val = "" +
-                    "<table id=\"table_one\" class=\"table table-bordered\">" +
-                        "<thead style=\"background-color: #32a893;\">" +
+                    "<table id=\"datatable\" class=\"table table-striped table-bordered\" style=\"width:100%\">" +
+                        "<thead style=\"background-color: #2A3F54;\">" +
                             "<tr>" +
-                                "<th class=\"text-white text-center fw-bold\">No</th>" +
-                                "<th class=\"text-white text-center fw-bold\">Nama Produk</th>" +
-                                "<th class=\"text-white text-center fw-bold\">Jumlah Terjual</th>" +
-                                "<th class=\"text-white text-center fw-bold\">Total</th>" +
+                                "<th class=\"text-center text-light\">No</th>" +
+                                "<th class=\"text-center text-light\">Nama Produk</th>" +
+                                "<th class=\"text-center text-light\">Jumlah Terjual</th>" +
+                                "<th class=\"text-center text-light\">Total</th>" +
                             "</tr>" +
                         "</thead>" +
                         "<tbody>";
                             $.each(response.sales, function(index, item) {
                                 invoice_val += "" +
-                                    "<tr";
-                                    if (index % 2 == 1) {
-                                       invoice_val += " class=\"tabel_active\"";
-                                    }
-                                    invoice_val += ">" +
+                                    "<tr>" +
                                         "<td class=\"text-center\">" + (index + 1) + "</td>" +
                                         "<td>";
 
@@ -109,11 +127,9 @@
                         invoice_val += "</tbody>" +
                     "</table>";
 
-                    $('.card-body').append(invoice_val);
+                    $('.data-table').append(invoice_val);
 
-                    $('#table_one').DataTable({
-                        'ordering': false
-                    });
+                    $('#datatable').DataTable();
                 }
             });
         }
@@ -123,7 +139,7 @@
                 salesAll();
             }
             else {
-                $('.card-body').empty();
+                $('.data-table').empty();
 
                 var id = $(this).val();
                 var url = '{{ route("report.product_detail", ":id") }}';
@@ -139,25 +155,21 @@
                     type: 'GET',
                     success: function(response) {
                         var sales_val = "" +
-                        "<table id=\"table_one\" class=\"table table-bordered\">" +
-                            "<thead style=\"background-color: #32a893;\">" +
+                        "<table id=\"datatable\" class=\"table table-striped table-bordered\" style=\"width:100%\">" +
+                            "<thead style=\"background-color: #2A3F54;\">" +
                                 "<tr>" +
-                                    "<th class=\"text-white text-center fw-bold\">No</th>" +
-                                    "<th class=\"text-white text-center fw-bold\">Nama Produk</th>" +
-                                    "<th class=\"text-white text-center fw-bold\">Nama Kasir</th>" +
-                                    "<th class=\"text-white text-center fw-bold\">Kode Nota</th>" +
-                                    "<th class=\"text-white text-center fw-bold\">Quantity</th>" +
-                                    "<th class=\"text-white text-center fw-bold\">Total</th>" +
+                                    "<th class=\"text-center text-light\">No</th>" +
+                                    "<th class=\"text-center text-light\">Nama Produk</th>" +
+                                    "<th class=\"text-center text-light\">Nama Kasir</th>" +
+                                    "<th class=\"text-center text-light\">Kode Nota</th>" +
+                                    "<th class=\"text-center text-light\">Quantity</th>" +
+                                    "<th class=\"text-center text-light\">Total</th>" +
                                 "</tr>" +
                             "</thead>" +
                             "<tbody>";
                                 $.each(response.sales, function(index, item) {
                                     sales_val += "" +
-                                    "<tr";
-                                    if (index % 2 == 1) {
-                                       sales_val += " class=\"tabel_active\"";
-                                    }
-                                    sales_val += ">" +
+                                    "<tr>" +
                                         "<td class=\"text-center\">" + (index + 1) + "</td>" +
                                         "<td class=\"text-center\">";
 
@@ -191,11 +203,9 @@
                             sales_val += "</tbody>" +
                         "</table>";
 
-                        $('.card-body').append(sales_val);
+                        $('.data-table').append(sales_val);
 
-                        $('#table_one').DataTable({
-                            'ordering': false
-                        });
+                        $('#datatable').DataTable();
                     }
                 });
             }

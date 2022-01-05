@@ -9,6 +9,9 @@
 <link href="{{ asset('theme/vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css') }}" rel="stylesheet">
 <link href="{{ asset('theme/vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css') }}" rel="stylesheet">
 
+{{-- select2 --}}
+<link rel="stylesheet" href="{{ asset('theme/vendors/select2/dist/css/select2.min.css') }}">
+
 @endsection
 
 @section('content')
@@ -31,7 +34,7 @@
                         <div class="row mb-2 mt-1">
                             <div class="col-md-2">
                                 <label for="select_shop">Pilih Toko</label>
-                                <select name="select_shop" id="select_shop" class="form-control form-control-sm select_shop">
+                                <select name="select_shop" id="select_shop" class="form-control select_shop">
                                     <option value="0">--Pilih Toko--</option>
                                     @foreach ($shops as $item)
                                         <option value="{{ $item->id }}">{{ $item->name }}</option>
@@ -46,7 +49,7 @@
                             </div>
                             <div class="col-md-2">
                                 <label for="opsi">Pilih Opsi</label>
-                                <select name="opsi" id="opsi" class="form-control form-control-sm">
+                                <select name="opsi" id="opsi" class="form-control">
                                     <option value="0">--Pilih Opsi--</option>
                                     <option value="1">Data Keseluruhan</option>
                                     <option value="2">Data Bukan Customer</option>
@@ -55,17 +58,16 @@
                             </div>
                             <div class="col-md-2">
                                 <label for="start_date">Tanggal Awal</label>
-                                <input type="date" name="start_date" id="start_date" class="form-control form-control-sm">
+                                <input type="date" name="start_date" id="start_date" class="form-control">
                             </div>
                             <div class="col-md-2">
                                 <label for="end_date">Tanggal Akhir</label>
-                                <input type="date" name="end_date" id="end_date" class="form-control form-control-sm">
+                                <input type="date" name="end_date" id="end_date" class="form-control">
                             </div>
                             <div class="col-md-2">
                                 <label for="start_date"></label>
-                                {{-- <button class="btn btn-primary btn-sm form-control btn-search"><i class="fa fa-search"></i></button> --}}
                                 <button
-                                    class="btn btn-primary btn-sm btn-search text-white pl-3 pr-3 mt-4"
+                                    class="btn btn-primary btn-sm btn-search text-white pl-3 pr-3 pt-2 pb-2 mt-4"
                                     title="Tambah">
                                         <i class="fa fa-search"></i> Cari
                                 </button>
@@ -111,9 +113,14 @@
 <script src="{{ asset('theme/vendors/pdfmake/build/pdfmake.min.js') }}"></script>
 <script src="{{ asset('theme/vendors/pdfmake/build/vfs_fonts.js') }}"></script>
 
+{{-- select2 --}}
+<script src="{{ asset('theme/vendors/select2/dist/js/select2.min.js') }}"></script>
+
 <script>
     $(document).ready(function() {
         var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+
+        $('#select_cashier').select2();
 
         invoiceSalesCurrent();
         function invoiceSalesCurrent() {
@@ -138,14 +145,10 @@
                         "<tbody>";
                             $.each(response.invoices, function(index, item) {
                                 invoice_val += "" +
-                                    "<tr";
-                                    if (index % 2 == 1) {
-                                       invoice_val += " class=\"tabel_active\"";
-                                    }
-                                    invoice_val += ">" +
+                                    "<tr>" +
                                         "<td class=\"text-center\">" + (index + 1) + "</td>" +
                                         "<td class=\"text-center\">" + tanggal(item.date_recorded) + "</td>" +
-                                        "<td class=\"text-center\">";
+                                        "<td>";
 
                                         if (item.user) {
                                             invoice_val += item.user.name;
@@ -278,14 +281,10 @@
                         "<tbody>";
                             $.each(response.invoices, function(index, item) {
                                 invoice_val += "" +
-                                    "<tr";
-                                    if (index % 2 == 1) {
-                                       invoice_val += " class=\"tabel_active\"";
-                                    }
-                                    invoice_val += ">" +
+                                    "<tr>" +
                                         "<td class=\"text-center\">" + (index + 1) + "</td>" +
                                         "<td class=\"text-center\">" + tanggal(item.date_recorded) + "</td>" +
-                                        "<td class=\"text-center\">";
+                                        "<td>";
 
                                         if (item.user) {
                                             invoice_val += item.user.name;
@@ -341,14 +340,10 @@
                         "<tbody>";
                             $.each(response.invoices, function(index, item) {
                                 invoice_val += "" +
-                                    "<tr";
-                                    if (index % 2 == 1) {
-                                       invoice_val += " class=\"tabel_active\"";
-                                    }
-                                    invoice_val += ">" +
+                                    "<tr>" +
                                         "<td class=\"text-center\">" + (index + 1) + "</td>" +
                                         "<td class=\"text-center\">" + tanggal(item.date_recorded) + "</td>" +
-                                        "<td class=\"text-center\">";
+                                        "<td>";
 
                                         if (item.user) {
                                             invoice_val += item.user.name;
@@ -450,11 +445,7 @@
                             "<tbody>";
                                 $.each(response.invoices, function(index, item) {
                                     invoice_val += "" +
-                                        "<tr";
-                                        if (index % 2 == 1) {
-                                        invoice_val += " class=\"tabel_active\"";
-                                        }
-                                        invoice_val += ">" +
+                                        "<tr>" +
                                             "<td class=\"text-center\">" + (index + 1) + "</td>" +
                                             "<td class=\"text-center\">" + tanggal(item.date_recorded) + "</td>" +
                                             "<td class=\"text-center\">";

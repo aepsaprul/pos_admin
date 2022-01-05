@@ -88,8 +88,8 @@
                                     <a><i class="fa fa-copy"></i> Laporan <span class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
                                         <li><a href="{{ route('report.index') }}">Penjualan</a></li>
-                                        <li><a href="{{ route('report.customer_index') }}">Produk</a></li>
-                                        <li><a href="{{ route('report.product_index') }}">Customer</a></li>
+                                        <li><a href="{{ route('report.customer_index') }}">Customer</a></li>
+                                        <li><a href="{{ route('report.product_index') }}">Produk</a></li>
                                         <li><a href="{{ route('report.income_index') }}">Laba Rugi</a></li>
                                     </ul>
                                 </li>
