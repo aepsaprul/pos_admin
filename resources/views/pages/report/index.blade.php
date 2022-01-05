@@ -44,7 +44,7 @@
                             <div class="col-md-2">
                                 <label for="select_cashier">Pilih Kasir</label>
                                 <select name="select_cashier" id="select_cashier" class="form-control form-control-sm select_cashier">
-
+                                    <option value="0">--Pilih Kasir--</option>
                                 </select>
                             </div>
                             <div class="col-md-2">
