@@ -23,7 +23,7 @@ class CashierController extends Controller
         $sales = Sales::with('product')->where('user_id', Auth::user()->id)->where('invoice_id', null)->get();
         $total_price = $sales->sum('sub_total');
 
-        $product_manual = ProductShop::get();
+        $product_manual = ProductShop::where('shop_id', Auth::user()->employee->shop_id)->get();
         $customer = Customer::get();
 
         return view('pages.cashier.index', [
@@ -40,7 +40,9 @@ class CashierController extends Controller
         $product = Product::where('product_code', $request->product_code)
             ->orWhere('id', $request->product_manual)
             ->first();
-        $stock = ProductShop::where('product_id', $product->id)->first();
+        $stock = ProductShop::where('product_id', $product->id)
+            ->where('shop_id', Auth::user()->employee->shop_id)
+            ->first();
 
         return response()->json([
             'product_id' => $product->id,

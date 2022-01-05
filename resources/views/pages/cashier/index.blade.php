@@ -1,232 +1,237 @@
 @extends('layouts.app')
 
 @section('style')
-<link rel="stylesheet" href="{{ asset('lib/select2/css/select2.min.css') }}">
 
-<style>
-    .justify-content-center {
-        font-size: 12px;
-    }
-</style>
+{{-- select2 --}}
+<link rel="stylesheet" href="{{ asset('theme/vendors/select2/dist/css/select2.min.css') }}">
+
 @endsection
 
 @section('content')
-<div class="container-fluid">
-    <div class="row justify-content-center">
-        <div class="container mt-2">
-            <div class="row">
-                <div class="col-sm-3">
-                    <div class="mb-1 row">
-                        <label for="product_code" class="col-sm-4 col-form-label"><strong>Kode Produk</strong></label>
-                        <div class="col-sm-8">
-                            <input type="text" class="form-control form-control-sm" id="product_code" name="product_code" autocomplete="off" autofocus>
-                        </div>
-                    </div>
-                    <div class="mb-1 row">
-                        <label for="product_manual" class="col-sm-4 col-form-label"><strong>Nama Produk</strong></label>
-                        <div class="col-sm-8">
-                            <select name="product_manual" id="product_manual" class="form-control form-control-sm product_manual_select2">
-                                <option value="">Manual</option>
-                                @foreach ($product_manuals as $item)
-                                    <option value="{{ $item->product->id }}">{{ $item->product->product_name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                    <div class="mb-1 row">
-                        <label for="quantity" class="col-sm-4 col-form-label"><strong>Quantity</strong></label>
-                        <div class="col-sm-8">
-                            <input type="number" min="0" class="form-control form-control-sm" id="quantity" name="quantity">
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-3">
-                    <div class="mb-1 row">
-                        <label for="pay" class="col-sm-3 col-form-label"><strong>Bayar</strong></label>
-                        <div class="col-sm-8">
-                            <input type="text" class="form-control form-control-sm" id="pay" name="pay">
-                        </div>
-                    </div>
-                    <div class="mb-1 row">
-                        <label for="change" class="col-sm-3 col-form-label">Kembalian</label>
-                        <div class="col-sm-8">
-                            <input type="text" class="form-control form-control-sm" id="change" name="change" disabled>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-3">
-                    <div class="mb-1 row">
-                        <label for="product_code" class="col-sm-4 col-form-label"><strong>Customer</strong></label>
-                        <div class="col-sm-8">
-                            <select name="customer_id" id="customer_id" class="form-control form-control-sm select_customer" autofocus>
-                                <option value="">--Pilih Customer--</option>
-                                @foreach ($customers as $item)
-                                    <option value="{{ $item->id }}">{{ $item->customer_name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                    <div class="mb-1 row">
-                        <label for="bid" class="col-sm-4 col-form-label"><strong>Nego</strong></label>
-                        <div class="col-sm-8">
-                            <input type="text" class="form-control form-control-sm" id="bid" name="bid">
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-3">
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <input type="hidden" class="form-control form-control-sm" id="discount" name="discount">
-                            <input type="hidden" class="form-control form-control-sm" id="before_discount" name="before_discount" value="{{ $total_price }}">
-                            <input type="hidden" name="total_price" id="total_price" value="{{ $total_price }}">
-                            <div class="p-3 text-center h3">Rp. <span class="total_price_show">{{ rupiah($total_price) }}</span></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <hr>
-            <div class="d-flex justify-content-between">
-                <div>
-                    <div class="row">
-                        <input type="hidden" class="form-control" id="product_id" name="product_id">
-                        <div class="col-md-3">
-                            <div class="mb-3">
-                                <label for="product_name" class="form-label">Nama Produk</label>
-                                <input type="text" class="form-control form-control-sm" id="product_name" name="product_name" disabled>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="mb-3">
-                                <label for="stock" class="form-label">Stok</label>
-                                <input type="text" class="form-control form-control-sm" id="stock" name="stock" disabled>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="mb-3">
-                                <label for="product_price" class="form-label">Harga Satuan (Rp)</label>
-                                <input type="text" class="form-control form-control-sm" id="product_price" name="product_price" disabled>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="mb-3">
-                                <label for="final_price" class="form-label">Harga Akhir (Rp)</label>
-                                <input type="text" class="form-control form-control-sm" id="final_price" name="final_price" disabled>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div>
-                    <div class="btn-group" role="group" aria-label="Basic outlined example">
-                        <button type="button" class="btn btn-success py-3 px-4 btn-print">PRINT</button>
-                        <button type="button" class="btn btn-outline-danger py-3 px-4 btn-reset">RESET</button>
-                    </div>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-body">
-                    <table class="table table-bordered">
-                        <thead style="background-color: #32a893;">
-                            <tr>
-                                <th class="text-center text-white">No</th>
-                                <th class="text-center text-white">Kode Produk</th>
-                                <th class="text-center text-white">Nama Produk</th>
-                                <th class="text-center text-white">Harga Satuan</th>
-                                <th class="text-center text-white">Qty</th>
-                                <th class="text-center text-white">Harga Akhir</th>
-                                <th class="text-center text-white">Opsi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($sales as $key => $item)
-                                <tr
-                                    @if ($key % 2 == 1)
-                                        echo class="tabel_active";
-                                    @endif
-                                >
-                                    <td class="text-center">{{ $key + 1 }}</td>
-                                    <td>{{ $item->product->product_code }}</td>
-                                    <td>{{ $item->product->product_name }}</td>
-                                    <td class="text-end">{{ rupiah($item->product->product_price_selling) }}</td>
-                                    <td class="text-center">{{ rupiah($item->quantity) }}</td>
-                                    <td class="text-end">{{ rupiah($item->product->product_price_selling * $item->quantity) }}</td>
-                                    <td class="text-center">
-                                        <div class="btn-group">
-                                            <form
-                                                action="{{ route('cashier.delete', [$item->id]) }}"
-                                                method="POST"
-                                                class="d-inline">
-                                                    @method('delete')
-                                                    @csrf
-                                                        <button
-                                                            class="border-0 bg-transparent"
-                                                            onclick="return confirm('Yakin akan dihapus?')"
-                                                            title="Hapus">
-                                                            <i class="fas fa-trash"></i>
-                                                        </button>
-                                            </form>
+
+<!-- page content -->
+<div class="right_col" role="main">
+    <div class="">
+        <div class="row">
+            <div class="col-md-12 col-sm-12  ">
+                <div class="x_panel">
+                    <div class="x_content">
+                        <div class="container mt-2">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="mb-1 row">
+                                        <label for="product_code" class="col-sm-4 col-form-label"><strong>Kode Produk</strong></label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control form-control-sm" id="product_code" name="product_code" autocomplete="off" autofocus>
                                         </div>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                                    </div>
+                                    <div class="mb-1 row">
+                                        <label for="product_manual" class="col-sm-4 col-form-label"><strong>Nama Produk</strong></label>
+                                        <div class="col-sm-8">
+                                            <select name="product_manual" id="product_manual" class="form-control form-control-sm product_manual_select2" style="width: 100%;">
+                                                <option value="">Manual</option>
+                                                @foreach ($product_manuals as $item)
+                                                    <option value="{{ $item->product->id }}">{{ $item->product->product_name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="mb-1 row">
+                                        <label for="quantity" class="col-sm-4 col-form-label"><strong>Quantity</strong></label>
+                                        <div class="col-sm-8">
+                                            <input type="number" min="0" class="form-control form-control-sm" id="quantity" name="quantity">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="mb-1 row">
+                                        <label for="pay" class="col-sm-3 col-form-label"><strong>Bayar</strong></label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control form-control-sm" id="pay" name="pay">
+                                        </div>
+                                    </div>
+                                    <div class="mb-1 row">
+                                        <label for="change" class="col-sm-3 col-form-label">Kembalian</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control form-control-sm" id="change" name="change" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="mb-1 row">
+                                        <label for="product_code" class="col-sm-4 col-form-label"><strong>Customer</strong></label>
+                                        <div class="col-sm-8">
+                                            <select name="customer_id" id="customer_id" class="form-control form-control-sm select_customer" style="width: 100%;" autofocus>
+                                                <option value="">--Pilih Customer--</option>
+                                                @foreach ($customers as $item)
+                                                    <option value="{{ $item->id }}">{{ $item->customer_name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="mb-1 row">
+                                        <label for="bid" class="col-sm-4 col-form-label"><strong>Nego</strong></label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control form-control-sm" id="bid" name="bid">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <input type="hidden" class="form-control form-control-sm" id="discount" name="discount">
+                                            <input type="hidden" class="form-control form-control-sm" id="before_discount" name="before_discount" value="{{ $total_price }}">
+                                            <input type="hidden" name="total_price" id="total_price" value="{{ $total_price }}">
+                                            <div class="p-3 text-center h5">Rp. <span class="total_price_show">{{ rupiah($total_price) }}</span></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <div class="row">
+                                        <input type="hidden" class="form-control" id="product_id" name="product_id">
+                                        <div class="col-md-3">
+                                            <div class="mb-3">
+                                                <label for="product_name" class="form-label">Nama Produk</label>
+                                                <input type="text" class="form-control form-control-sm" id="product_name" name="product_name" disabled>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="mb-3">
+                                                <label for="stock" class="form-label">Stok</label>
+                                                <input type="text" class="form-control form-control-sm" id="stock" name="stock" disabled>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="mb-3">
+                                                <label for="product_price" class="form-label">Harga Satuan (Rp)</label>
+                                                <input type="text" class="form-control form-control-sm" id="product_price" name="product_price" disabled>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="mb-3">
+                                                <label for="final_price" class="form-label">Harga Akhir (Rp)</label>
+                                                <input type="text" class="form-control form-control-sm" id="final_price" name="final_price" disabled>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="btn-group" role="group" aria-label="Basic outlined example">
+                                        <button type="button" class="btn btn-success py-3 px-4 btn-print">PRINT</button>
+                                        <button type="button" class="btn btn-outline-danger py-3 px-4 btn-reset">RESET</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <table id="datatable" class="table table-striped table-bordered" style="width:100%">
+                                <thead style="background-color: #2A3F54;">
+                                    <tr>
+                                        <th class="text-center text-white">No</th>
+                                        <th class="text-center text-white">Kode Produk</th>
+                                        <th class="text-center text-white">Nama Produk</th>
+                                        <th class="text-center text-white">Harga Satuan</th>
+                                        <th class="text-center text-white">Qty</th>
+                                        <th class="text-center text-white">Harga Akhir</th>
+                                        <th class="text-center text-white">Opsi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($sales as $key => $item)
+                                        <tr>
+                                            <td class="text-center">{{ $key + 1 }}</td>
+                                            <td>{{ $item->product->product_code }}</td>
+                                            <td>{{ $item->product->product_name }}</td>
+                                            <td class="text-right">{{ rupiah($item->product->product_price_selling) }}</td>
+                                            <td class="text-center">{{ rupiah($item->quantity) }}</td>
+                                            <td class="text-right">{{ rupiah($item->product->product_price_selling * $item->quantity) }}</td>
+                                            <td class="text-center">
+                                                <div class="btn-group">
+                                                    <form
+                                                        action="{{ route('cashier.delete', [$item->id]) }}"
+                                                        method="POST"
+                                                        class="d-inline">
+                                                            @method('delete')
+                                                            @csrf
+                                                                <button
+                                                                    class="border-0 bg-transparent"
+                                                                    onclick="return confirm('Yakin akan dihapus?')"
+                                                                    title="Hapus">
+                                                                    <i class="fa fa-trash"></i>
+                                                                </button>
+                                                    </form>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+
+                        {{-- invoice --}}
+                        <div class="container-fluid invoice">
+                            <div class="row">
+                                <div class="col-md-4 col-sm-4 col-4 border border-1">
+                                    <h3 class="h3 text-center">Nama Toko</h3>
+                                    <p class="text-center">Jl. Pahlawan Tanpa Tanda Jasa No 2 Timur Masjid Agung</p>
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-6 col-6">
+                                            <span>Kode Nota</span>
+                                            <span class="invoice_code"></span>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 col-6 text-end">
+                                            <span class="invoice_date"></span>
+                                            <span class="invoice_time"></span>
+                                        </div>
+                                    </div>
+                                    <hr style="border: 2px dashed #000;">
+                                    <div class="row">
+                                        <div class="col-md-12 col-sm-12 col-12 invoice_data">
+                                            <table width="100%">
+                                                @foreach ($sales as $key => $item)
+                                                <tr>
+                                                    <td>{{ $item->product->product_name }}</td>
+                                                    <td>{{ rupiah($item->quantity) }}</td>
+                                                    <td class="text-end">{{ rupiah($item->product->product_price_selling * $item->quantity) }}</td>
+                                                </tr>
+                                                @endforeach
+                                                <tr class="nego_layout">
+                                                    {{-- content in jquery --}}
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-end">Total</td>
+                                                    <td>:</td>
+                                                    <td class="text-end print_total_price" style="border-top: 1px dashed #000;">{{ rupiah($total_price) }}</td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <hr style="border: 2px dashed #000;">
+                                    <div class="row">
+                                        <div class="col-md-12 col-sm-12 col-12 text-center footer">
+                                            <span class="text-center">Telp: 081234567890</span><br>
+                                            <span class="text-center">Wa: 081234567890</span><br>
+                                            <span class="text-center">Email: toko@gmail.com</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<div class="container-fluid invoice">
-    <div class="row">
-        <div class="col-md-4 col-sm-4 col-4 border border-1">
-            <h3 class="h3 text-center">Nama Toko</h3>
-            <p class="text-center">Jl. Pahlawan Tanpa Tanda Jasa No 2 Timur Masjid Agung</p>
-            <div class="row">
-                <div class="col-md-6 col-sm-6 col-6">
-                    <span>Kode Nota</span>
-                    <span class="invoice_code"></span>
-                </div>
-                <div class="col-md-6 col-sm-6 col-6 text-end">
-                    <span class="invoice_date"></span>
-                    <span class="invoice_time"></span>
-                </div>
-            </div>
-            <hr style="border: 2px dashed #000;">
-            <div class="row">
-                <div class="col-md-12 col-sm-12 col-12 invoice_data">
-                    <table width="100%">
-                        @foreach ($sales as $key => $item)
-                        <tr>
-                            <td>{{ $item->product->product_name }}</td>
-                            <td>{{ rupiah($item->quantity) }}</td>
-                            <td class="text-end">{{ rupiah($item->product->product_price_selling * $item->quantity) }}</td>
-                        </tr>
-                        @endforeach
-                        <tr class="nego_layout">
-                            {{-- content in jquery --}}
-                        </tr>
-                        <tr>
-                            <td class="text-end">Total</td>
-                            <td>:</td>
-                            <td class="text-end print_total_price" style="border-top: 1px dashed #000;">{{ rupiah($total_price) }}</td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-            <hr style="border: 2px dashed #000;">
-            <div class="row">
-                <div class="col-md-12 col-sm-12 col-12 text-center footer">
-                    <span class="text-center">Telp: 081234567890</span><br>
-                    <span class="text-center">Wa: 081234567890</span><br>
-                    <span class="text-center">Email: toko@gmail.com</span>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+<!-- /page content -->
+
 @endsection
 
 @section('script')
-<script src="{{ asset('lib/select2/js/select2.min.js') }}"></script>
+
+{{-- select2 --}}
+<script src="{{ asset('theme/vendors/select2/dist/js/select2.min.js') }}"></script>
 
 <script>
     $(document).ready(function() {

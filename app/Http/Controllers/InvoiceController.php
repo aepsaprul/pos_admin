@@ -12,12 +12,12 @@ class InvoiceController extends Controller
     public function index()
     {
         if (Auth::user()->employee) {
-            $invoice = Invoice::where('shop_id', Auth::user()->employee->shop_id)->get();
+            $invoice = Invoice::where('shop_id', Auth::user()->employee->shop_id)->limit('900')->get();
+            return view('pages.invoice.index', ['invoices' => $invoice]);
         } else {
-            $invoice = Invoice::limit('900')->get();
+            return view('page_403');
         }
 
-        return view('pages.invoice.index', ['invoices' => $invoice]);
     }
 
     public function show($id)
