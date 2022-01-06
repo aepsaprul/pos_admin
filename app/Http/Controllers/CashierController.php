@@ -18,21 +18,26 @@ class CashierController extends Controller
 {
     public function index()
     {
-        $invoice_number = Str::random(10);
+        if (Auth::user()->employee) {
+            $invoice_number = Str::random(10);
 
-        $sales = Sales::with('product')->where('user_id', Auth::user()->id)->where('invoice_id', null)->get();
-        $total_price = $sales->sum('sub_total');
+            $sales = Sales::with('product')->where('user_id', Auth::user()->id)->where('invoice_id', null)->get();
+            $total_price = $sales->sum('sub_total');
 
-        $product_manual = ProductShop::where('shop_id', Auth::user()->employee->shop_id)->get();
-        $customer = Customer::get();
+            $product_manual = ProductShop::where('shop_id', Auth::user()->employee->shop_id)->get();
+            $customer = Customer::where('shop_id', Auth::user()->employee->shop_id)->get();
 
-        return view('pages.cashier.index', [
-            'sales' => $sales,
-            'total_price' => $total_price,
-            'invoice_number' => $invoice_number,
-            'product_manuals' => $product_manual,
-            'customers' => $customer
-        ]);
+            return view('pages.cashier.index', [
+                'sales' => $sales,
+                'total_price' => $total_price,
+                'invoice_number' => $invoice_number,
+                'product_manuals' => $product_manual,
+                'customers' => $customer
+            ]);
+        } else {
+            return view('page_403');
+        }
+
     }
 
     public function getProduct(Request $request)
@@ -137,28 +142,6 @@ class CashierController extends Controller
         return redirect()->route('cashier.index');
     }
 
-    // public function invoice(Request $request)
-    // {
-    //     $char = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz123456789';
-    //     $shuffle  = substr(str_shuffle($char), 0, 5);
-
-    //     $invoice = new Invoice();
-
-    //     if ($request->customer_id) {
-    //         $invoice->customer_id = $request->customer_id;
-    //     }
-
-    //     $invoice->total_amount = $request->total_amount;
-    //     $invoice->date_recorded = date('Y-m-d H:i:s');
-    //     $invoice->user_id = Auth::user()->id;
-    //     $invoice->code = $shuffle;
-    //     $invoice->save();
-
-    //     $sales = Sales::where('user_id', Auth::user()->id)->where('invoice_id', null);
-    //     $sales->invoice_id = $invoice->id;
-    //     $sales->save();
-    // }
-
     public function print(Request $request)
     {
         $invoice_code = Str::random(10);
@@ -192,18 +175,25 @@ class CashierController extends Controller
 
     public function credit()
     {
-        $invoice_number = Str::random(10);
+        if (Auth::user()->employee) {
+            $invoice_number = Str::random(10);
 
-        $sales = Sales::with('product')->where('user_id', Auth::user()->id)->where('invoice_id', null)->get();
-        $total_price = $sales->sum('sub_total');
+            $sales = Sales::with('product')->where('user_id', Auth::user()->id)->where('invoice_id', null)->get();
+            $total_price = $sales->sum('sub_total');
 
-        $customer = Customer::get();
+            $product_manual = ProductShop::where('shop_id', Auth::user()->employee->shop_id)->get();
+            $customer = Customer::where('shop_id', Auth::user()->employee->shop_id)->get();
 
-        return view('pages.cashier.credit', [
-            'sales' => $sales,
-            'total_price' => $total_price,
-            'invoice_number' => $invoice_number,
-            'customers' => $customer
-        ]);
+            return view('pages.cashier.credit', [
+                'sales' => $sales,
+                'total_price' => $total_price,
+                'invoice_number' => $invoice_number,
+                'product_manuals' => $product_manual,
+                'customers' => $customer
+            ]);
+        } else {
+            return view('page_403');
+        }
+
     }
 }

@@ -80,6 +80,7 @@
 <script src="{{ asset('theme/vendors/pdfmake/build/pdfmake.min.js') }}"></script>
 <script src="{{ asset('theme/vendors/pdfmake/build/vfs_fonts.js') }}"></script>
 
+{{-- select2 --}}
 <script src="{{ asset('theme/vendors/select2/dist/js/select2.min.js') }}"></script>
 
 <script>

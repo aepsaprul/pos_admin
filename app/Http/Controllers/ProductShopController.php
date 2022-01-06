@@ -13,11 +13,11 @@ class ProductShopController extends Controller
     {
         if (Auth::user()->employee) {
             $product_shop = ProductShop::where('shop_id', Auth::user()->employee->shop->id)->orderBy('id', 'desc')->get();
-        } else {
-            $product_shop = ProductShop::orderBy('id', 'desc')->get();
-        }
 
-        return view('pages.product_shop.index', ['product_shops' => $product_shop]);
+            return view('pages.product_shop.index', ['product_shops' => $product_shop]);
+        } else {
+            return view('page_403');
+        }
     }
 
     public function create()

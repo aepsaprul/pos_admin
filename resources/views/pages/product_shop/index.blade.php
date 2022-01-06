@@ -9,6 +9,9 @@
 <link href="{{ asset('theme/vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css') }}" rel="stylesheet">
 <link href="{{ asset('theme/vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css') }}" rel="stylesheet">
 
+{{-- select2 --}}
+<link rel="stylesheet" href="{{ asset('theme/vendors/select2/dist/css/select2.min.css') }}">
+
 @endsection
 
 @section('content')
@@ -254,6 +257,9 @@
 <script src="{{ asset('theme/vendors/jszip/dist/jszip.min.js') }}"></script>
 <script src="{{ asset('theme/vendors/pdfmake/build/pdfmake.min.js') }}"></script>
 <script src="{{ asset('theme/vendors/pdfmake/build/vfs_fonts.js') }}"></script>
+
+{{-- select2 --}}
+<script src="{{ asset('theme/vendors/select2/dist/js/select2.min.js') }}"></script>
 
 <script>
     $(document).ready(function() {

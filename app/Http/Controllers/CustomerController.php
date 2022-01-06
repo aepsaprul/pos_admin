@@ -12,13 +12,12 @@ class CustomerController extends Controller
     {
         if (Auth::user()->employee) {
             $shop_id = Auth::user()->employee->shop->id;
+            $customer = Customer::where('shop_id', $shop_id)->get();
+
+            return view('pages.customer.index', ['customers' => $customer]);
         } else {
-            $shop_id = null;
+            return view('page_403');
         }
-
-        $customer = Customer::where('shop_id', $shop_id)->get();
-
-        return view('pages.customer.index', ['customers' => $customer]);
     }
 
     public function store(Request $request)

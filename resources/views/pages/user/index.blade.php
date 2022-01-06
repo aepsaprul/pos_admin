@@ -1,115 +1,111 @@
 @extends('layouts.app')
 
 @section('style')
-<link href="{{ asset('lib/datatables/css/dataTables.bootstrap5.min.css') }}" rel="stylesheet">
-<link rel="stylesheet" href="{{ asset('lib/select2/css/select2.min.css') }}">
 
-<style>
-    .col-md-12,
-    .col-md-12 button,
-    .col-md-12 a {
-        font-size: 12px;
-    }
-    .fas {
-        font-size: 14px;
-    }
-    .btn {
-        padding: .2rem .6rem;
-    }
-</style>
+<!-- Datatables -->
+<link href="{{ asset('theme/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css') }}" rel="stylesheet">
+<link href="{{ asset('theme/vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css') }}" rel="stylesheet">
+<link href="{{ asset('theme/vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css') }}" rel="stylesheet">
+<link href="{{ asset('theme/vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css') }}" rel="stylesheet">
+<link href="{{ asset('theme/vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css') }}" rel="stylesheet">
+
+{{-- select2 --}}
+<link rel="stylesheet" href="{{ asset('theme/vendors/select2/dist/css/select2.min.css') }}">
+
 @endsection
 
 @section('content')
-<div class="container-fluid">
-    <div class="row justify-content-center">
-        <div class="col-md-12">
-            <h6 class="text-uppercase text-center">Data User</h6>
 
-            <div class="row mb-2 mt-1">
-                <div class="col-md-4">
-                    <button
-                        id="button-create"
-                        type="button"
-                        class="btn"
-                        title="Tambah">
-                            <i
-                                class="fas fa-plus border border-0 py-2 me-2 text-white"
-                                style="background-color: #32a893; margin-left: -10px; padding-right: 10px; padding-left: 10px;">
-                            </i> Tambah
-                    </button>
-                </div>
+<!-- page content -->
+<div class="right_col" role="main">
+    <div class="">
+        <div class="page-title">
+            <div class="title_left">
+                <h3>Data Jabatan</h3>
             </div>
+        </div>
 
-            <div class="card">
-                <div class="card-body">
-                    <table id="table_one" class="table table-bordered">
-                        <thead style="background-color: #32a893;">
-                            <tr>
-                                <th class="text-white text-center fw-bold">No</th>
-                                <th class="text-white text-center fw-bold">Nama</th>
-                                <th class="text-white text-center fw-bold">Email</th>
-                                <th class="text-white text-center fw-bold">Roles</th>
-                                <th class="text-white text-center fw-bold">Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($users as $key => $item)
-                                <tr
-                                    @if ($key % 2 == 1)
-                                        echo class="tabel_active";
-                                    @endif
-                                >
-                                    <td class="text-center">{{ $key + 1 }}</td>
-                                    <td>{{ $item->name }}</td>
-                                    <td>
-                                        @if ($item->employee)
-                                            {{ $item->employee->email }}
-                                        @else
-                                            Email tidak ada
-                                        @endif
-                                    </td>
-                                    <td>
-                                        @if ($item->roles)
-                                            {{ $item->roles->name }}
-                                        @else
-                                            Roles tidak ada
-                                        @endif
-                                    </td>
-                                    <td class="text-center">
-                                        <div class="btn-group">
-                                            <button
-                                                type="button"
-                                                class="dropdown-toggle text-white border border-0 py-1"
-                                                data-bs-toggle="dropdown"
-                                                aria-expanded="false"
-                                                style="background-color: #32a893;">
-                                                    <i class="fas fa-cog"></i>
-                                            </button>
-                                            <ul class="dropdown-menu dropdown-menu-end">
-                                                <li>
-                                                    <button
-                                                        class="dropdown-item py-1 btn-delete"
-                                                        data-id="{{ $item->id }}"
-                                                        type="button">
-                                                            <i
-                                                                class="fas fa-trash-alt border border-1 px-2 py-2 me-2 text-white"
-                                                                style="background-color: #32a893;">
-                                                            </i> Hapus
-                                                    </button>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+        <div class="clearfix"></div>
+
+        <div class="row">
+            <div class="col-md-12 col-sm-12 ">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <button
+                            id="button-create"
+                            type="button"
+                            class="btn btn-primary btn-sm text-white pl-3 pr-3"
+                            title="Tambah">
+                                <i class="fa fa-plus"></i> Tambah
+                        </button>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="card-box table-responsive">
+                                    <table id="datatable" class="table table-striped table-bordered" style="width:100%">
+                                        <thead style="background-color: #2A3F54;">
+                                            <tr>
+                                                <th class="text-white text-center fw-bold">No</th>
+                                                <th class="text-white text-center fw-bold">Nama</th>
+                                                <th class="text-white text-center fw-bold">Email</th>
+                                                <th class="text-white text-center fw-bold">Roles</th>
+                                                <th class="text-white text-center fw-bold">Aksi</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($users as $key => $item)
+                                                <tr>
+                                                    <td class="text-center">{{ $key + 1 }}</td>
+                                                    <td>{{ $item->name }}</td>
+                                                    <td>
+                                                        @if ($item->employee)
+                                                            {{ $item->employee->email }}
+                                                        @else
+                                                            Email tidak ada
+                                                        @endif
+                                                    </td>
+                                                    <td>
+                                                        @if ($item->roles)
+                                                            {{ $item->roles->name }}
+                                                        @else
+                                                            Roles tidak ada
+                                                        @endif
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <div class="btn-group">
+                                                            <a
+                                                                class="dropdown-toggle"
+                                                                data-toggle="dropdown"
+                                                                aria-haspopup="true"
+                                                                aria-expanded="false">
+                                                                    <i class="fa fa-cog"></i>
+                                                            </a>
+                                                            <div class="dropdown-menu dropdown-menu-right">
+                                                                <a
+                                                                    class="dropdown-item btn-delete"
+                                                                    href="#"
+                                                                    data-id="{{ $item->id }}">
+                                                                        <i class="fa fa-trash px-2"></i> Hapus
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="mb-5"></div>
     </div>
 </div>
+<!-- /page content -->
 
 {{-- modal create  --}}
 <div class="modal fade modal-create" tabindex="-1">
@@ -120,9 +116,9 @@
                     <h5 class="modal-title text-white">Tambah User</h5>
                     <button
                         type="button"
-                        class="btn-close"
-                        data-bs-dismiss="modal"
-                        aria-label="Close">
+                        class="close"
+                        data-dismiss="modal">
+                            <span aria-hidden="true">x</span>
                     </button>
                 </div>
                 <div class="modal-body">
@@ -156,7 +152,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="border-0 text-white" style="background-color: #32a893; padding: 5px 10px;">Simpan</button>
+                    <button type="submit" class="border-0 text-white" style="background-color: #32a893; padding: 5px 10px;"><i class="fa fa-save"></i> Simpan</button>
                 </div>
             </form>
         </div>
@@ -179,9 +175,9 @@
                     <h5 class="modal-title text-white">Ubah User</h5>
                     <button
                         type="button"
-                        class="btn-close"
-                        data-bs-dismiss="modal"
-                        aria-label="Close">
+                        class="close"
+                        data-dismiss="modal">
+                            <span aria-hidden="true">x</span>
                     </button>
                 </div>
                 <div class="modal-body">
@@ -203,7 +199,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="border-0 text-white" style="background-color: #32a893; padding: 5px 10px;">Simpan</button>
+                    <button type="submit" class="border-0 text-white" style="background-color: #32a893; padding: 5px 10px;"><i class="fa fa-save"></i> Perbaharui</button>
                 </div>
             </form>
         </div>
@@ -223,7 +219,7 @@
                     <h5 class="modal-title">Yakin akan dihapus <span class="delete_title text-decoration-underline"></span> ?</h5>
                 </div>
                 <div class="modal-footer justify-content-between">
-                    <button type="button" class="btn btn-secondary text-center" data-bs-dismiss="modal" style="width: 100px;">Tidak</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"><span aria-hidden="true">Tidak</span></button>
                     <button type="submit" class="btn btn-primary text-center" style="width: 100px;">Ya</button>
                 </div>
             </form>
@@ -236,7 +232,7 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-body">
-                Proses sukses.... <i class="fas fa-check" style="color: #32a893;"></i>
+                Proses sukses.... <i class="fa fa-check" style="color: #32a893;"></i>
             </div>
         </div>
     </div>
@@ -245,20 +241,30 @@
 @endsection
 
 @section('script')
-<script src="{{ asset('lib/datatables/js/jquery.dataTables.min.js') }}"></script>
-<script src="{{ asset('lib/datatables/js/dataTables.bootstrap5.min.js') }}"></script>
-<script src="{{ asset('lib/datatables/js/dataTables.buttons.min.js') }}"></script>
-<script src="{{ asset('lib/datatables/js/jszip.min.js') }}"></script>
-<script src="{{ asset('lib/datatables/js/buttons.html5.min.js') }}"></script>
-<script src="{{ asset('lib/select2/js/select2.min.js') }}"></script>
+
+<!-- Datatables -->
+<script src="{{ asset('theme/vendors/datatables.net/js/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('theme/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js') }}"></script>
+<script src="{{ asset('theme/vendors/datatables.net-buttons/js/dataTables.buttons.min.js') }}"></script>
+<script src="{{ asset('theme/vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js') }}"></script>
+<script src="{{ asset('theme/vendors/datatables.net-buttons/js/buttons.flash.min.js') }}"></script>
+<script src="{{ asset('theme/vendors/datatables.net-buttons/js/buttons.html5.min.js') }}"></script>
+<script src="{{ asset('theme/vendors/datatables.net-buttons/js/buttons.print.min.js') }}"></script>
+<script src="{{ asset('theme/vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js') }}"></script>
+<script src="{{ asset('theme/vendors/datatables.net-keytable/js/dataTables.keyTable.min.js') }}"></script>
+<script src="{{ asset('theme/vendors/datatables.net-responsive/js/dataTables.responsive.min.js') }}"></script>
+<script src="{{ asset('theme/vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js') }}"></script>
+<script src="{{ asset('theme/vendors/datatables.net-scroller/js/dataTables.scroller.min.js') }}"></script>
+<script src="{{ asset('theme/vendors/jszip/dist/jszip.min.js') }}"></script>
+<script src="{{ asset('theme/vendors/pdfmake/build/pdfmake.min.js') }}"></script>
+<script src="{{ asset('theme/vendors/pdfmake/build/vfs_fonts.js') }}"></script>
+
+{{-- select2 --}}
+<script src="{{ asset('theme/vendors/select2/dist/js/select2.min.js') }}"></script>
 
 <script>
     $(document).ready(function() {
         var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-
-        $('#table_one').DataTable({
-            'ordering': false
-        });
 
         $('#button-create').on('click', function() {
             $('#create_roles').empty();
