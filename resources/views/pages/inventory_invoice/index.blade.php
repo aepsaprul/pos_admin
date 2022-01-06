@@ -21,12 +21,20 @@
                 <h3>Data Produk Keluar</h3>
             </div>
         </div>
-
         <div class="clearfix"></div>
 
         <div class="row">
             <div class="col-md-12 col-sm-12 ">
                 <div class="x_panel">
+                    <div class="x_title">
+                        <a
+                            href="{{ url('inventory_cashier') }}"
+                            class="btn btn-primary btn-sm text-white pl-3 pr-3"
+                            title="Tambah">
+                                <i class="fa fa-plus"></i> Tambah Transaksi
+                        </a>
+                        <div class="clearfix"></div>
+                    </div>
                     <div class="x_content">
                         <div class="row">
                             <div class="col-sm-12">
