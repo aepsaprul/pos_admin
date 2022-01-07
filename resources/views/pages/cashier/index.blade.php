@@ -43,21 +43,32 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-sm-3">
+                                <div class="col-sm-4">
                                     <div class="mb-1 row">
-                                        <label for="pay" class="col-sm-3 col-form-label"><strong>Bayar</strong></label>
+                                        <label for="pay_method" class="col-sm-4 col-form-label"><strong>Metode Bayar</strong></label>
+                                        <div class="col-sm-8">
+                                            <select name="pay_method" id="pay_method" class="form-control form-control-sm">
+                                                <option value="0">--Pilih Metode--</option>
+                                                <option value="1">Cash</option>
+                                                <option value="2">EDC</option>
+                                                <option value="3">Warung Mitra</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="mb-1 row">
+                                        <label for="pay" class="col-sm-4 col-form-label"><strong>Bayar</strong></label>
                                         <div class="col-sm-8">
                                             <input type="text" class="form-control form-control-sm" id="pay" name="pay">
                                         </div>
                                     </div>
                                     <div class="mb-1 row">
-                                        <label for="change" class="col-sm-3 col-form-label">Kembalian</label>
+                                        <label for="change" class="col-sm-4 col-form-label">Kembalian</label>
                                         <div class="col-sm-8">
                                             <input type="text" class="form-control form-control-sm" id="change" name="change" disabled>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-sm-3">
+                                <div class="col-sm-4">
                                     <div class="mb-1 row">
                                         <label for="product_code" class="col-sm-4 col-form-label"><strong>Customer</strong></label>
                                         <div class="col-sm-8">
@@ -76,16 +87,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-sm-2">
-                                    <div class="row">
-                                        <div class="col-sm-12">
-                                            <input type="hidden" class="form-control form-control-sm" id="discount" name="discount">
-                                            <input type="hidden" class="form-control form-control-sm" id="before_discount" name="before_discount" value="{{ $total_price }}">
-                                            <input type="hidden" name="total_price" id="total_price" value="{{ $total_price }}">
-                                            <div class="p-3 text-center h5">Rp. <span class="total_price_show">{{ rupiah($total_price) }}</span></div>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                             <hr>
                             <div class="d-flex justify-content-between">
@@ -98,12 +99,12 @@
                                                 <input type="text" class="form-control form-control-sm" id="product_name" name="product_name" disabled>
                                             </div>
                                         </div>
-                                        <div class="col-md-3">
+                                        {{-- <div class="col-md-3">
                                             <div class="mb-3">
                                                 <label for="stock" class="form-label">Stok</label>
                                                 <input type="text" class="form-control form-control-sm" id="stock" name="stock" disabled>
                                             </div>
-                                        </div>
+                                        </div> --}}
                                         <div class="col-md-3">
                                             <div class="mb-3">
                                                 <label for="product_price" class="form-label">Harga Satuan (Rp)</label>
@@ -114,6 +115,29 @@
                                             <div class="mb-3">
                                                 <label for="final_price" class="form-label">Harga Akhir (Rp)</label>
                                                 <input type="text" class="form-control form-control-sm" id="final_price" name="final_price" disabled>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="mb-3">
+                                                <input
+                                                    type="hidden"
+                                                    class="form-control form-control-sm"
+                                                    id="discount"
+                                                    name="discount">
+                                                <input
+                                                    type="hidden"
+                                                    class="form-control form-control-sm"
+                                                    id="before_discount"
+                                                    name="before_discount"
+                                                    value="{{ $total_price }}">
+                                                <input
+                                                    type="hidden"
+                                                    name="total_price"
+                                                    id="total_price"
+                                                    value="{{ $total_price }}">
+                                                <div class="p-3 text-center h5">
+                                                    Rp. <span class="total_price_show">{{ rupiah($total_price) }}</span>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

@@ -1,201 +1,165 @@
 @extends('layouts.app')
 
 @section('style')
-<link href="{{ asset('lib/datatables/css/dataTables.bootstrap5.min.css') }}" rel="stylesheet">
 
-<style>
-    .col-md-12,
-    .col-md-12 button,
-    .col-md-12 a {
-        font-size: 12px;
-    }
-    .fas {
-        font-size: 12px;
-    }
-</style>
+<!-- Datatables -->
+<link href="{{ asset('theme/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css') }}" rel="stylesheet">
+<link href="{{ asset('theme/vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css') }}" rel="stylesheet">
+<link href="{{ asset('theme/vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css') }}" rel="stylesheet">
+<link href="{{ asset('theme/vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css') }}" rel="stylesheet">
+<link href="{{ asset('theme/vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css') }}" rel="stylesheet">
+
 @endsection
 
 @section('content')
-<div class="container-fluid">
-    <div class="row justify-content-center">
-        <div class="col-md-12">
-            <h6 class="text-uppercase text-center">Data Navigasi</h6>
 
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="row mb-2 mt-1">
-                        <div class="col-md-4">
-                            <button
-                                id="main-button-create"
-                                type="button"
-                                class="btn"
-                                title="Tambah">
-                                    <i
-                                        class="fas fa-plus border border-0 py-2 me-2 text-white"
-                                        style="background-color: #32a893; margin-left: -10px; padding-right: 10px; padding-left: 10px;">
-                                    </i> Tambah
-                            </button>
-                        </div>
-                    </div>
+<!-- page content -->
+<div class="right_col" role="main">
+    <div class="">
+        <div class="page-title">
+            <div class="title_left">
+                <h3>Data Navigasi</h3>
+            </div>
+        </div>
+        <div class="clearfix"></div>
 
-                    <div class="card">
-                        <div class="card-body">
-                            <table id="table_one" class="table table-bordered">
-                                <thead style="background-color: #32a893;">
-                                    <tr>
-                                        <th class="text-white text-center fw-bold">No</th>
-                                        <th class="text-white text-center fw-bold">Title</th>
-                                        <th class="text-white text-center fw-bold">Link</th>
-                                        <th class="text-white text-center fw-bold">Aksi</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($nav_mains as $key => $item)
-                                        <tr
-                                            @if ($key % 2 == 1)
-                                                echo class="tabel_active";
-                                            @endif
-                                        >
+        <div class="row">
+            <div class="col-md-12 col-sm-12  ">
+                <div class="x_panel">
+                    <div class="x_content">
+
+                        <ul class="nav nav-tabs bar_tabs" id="myTab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="sub-tab" data-toggle="tab" href="#sub" role="tab" aria-controls="sub" aria-selected="true">Sub Menu</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="main-tab" data-toggle="tab" href="#main" role="tab" aria-controls="main" aria-selected="false">Main Menu</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="myTabContent">
+                            <div class="tab-pane fade show active" id="sub" role="tabpanel" aria-labelledby="sub-tab">
+                                <div class="x_title">
+                                    <button
+                                        id="sub-button-create"
+                                        type="button"
+                                        class="btn btn-primary btn-sm text-white pl-3 pr-3"
+                                        title="Tambah">
+                                            <i class="fa fa-plus"></i> Tambah
+                                    </button>
+                                </div>
+                                <table id="table_two" class="table table-striped table-bordered" style="width:100%">
+                                    <thead style="background-color: #2A3F54;">
+                                        <tr>
+                                            <th class="text-center text-light">No</th>
+                                            <th class="text-center text-light">Title</th>
+                                            <th class="text-center text-light">Link</th>
+                                            <th class="text-center text-light">Nav Main</th>
+                                            <th class="text-center text-light">Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($nav_subs as $key => $item)
+                                        <tr>
+                                            <td class="text-center">{{ $key + 1 }}</td>
+                                            <td class="sub_title_{{ $item->id }}">{{ $item->title }}</td>
+                                            <td class="sub_link_{{ $item->id }}">{{ $item->link }}</td>
+                                            <td class="sub_nav_main_{{ $item->id }}">
+                                                @if ($item->navMain)
+                                                    {{ $item->navMain->title }}
+                                                @else
+                                                    Data tidak ada
+                                                @endif
+                                            </td>
+                                            <td class="text-center">
+                                                <div class="btn-group">
+                                                    <a
+                                                        class="dropdown-toggle"
+                                                        data-toggle="dropdown"
+                                                        aria-haspopup="true"
+                                                        aria-expanded="false">
+                                                            <i class="fa fa-cog"></i>
+                                                    </a>
+                                                    <div class="dropdown-menu dropdown-menu-right">
+                                                        <a
+                                                            class="dropdown-item sub-btn-edit"
+                                                            href="#"
+                                                            data-id="{{ $item->id }}">
+                                                                <i class="fa fa-pencil px-2"></i> Ubah
+                                                        </a>
+                                                        <a
+                                                            class="dropdown-item sub-btn-delete"
+                                                            href="#"
+                                                            data-id="{{ $item->id }}">
+                                                                <i class="fa fa-trash px-2"></i> Hapus
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="tab-pane fade" id="main" role="tabpanel" aria-labelledby="main-tab">
+                                <div class="x_title">
+                                    <button
+                                        id="main-button-create"
+                                        type="button"
+                                        class="btn btn-primary btn-sm text-white pl-3 pr-3"
+                                        title="Tambah">
+                                            <i class="fa fa-plus"></i> Tambah
+                                    </button>
+                                </div>
+                                <table id="datatable" class="table table-striped table-bordered" style="width:100%">
+                                    <thead style="background-color: #2A3F54;">
+                                        <tr>
+                                            <th class="text-center text-light">No</th>
+                                            <th class="text-center text-light">Title</th>
+                                            <th class="text-center text-light">Link</th>
+                                            <th class="text-center text-light">Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($nav_mains as $key => $item)
+                                                <tr>
                                             <td class="text-center">{{ $key + 1 }}</td>
                                             <td><span class="main_title_{{ $item->id }}">{{ $item->title }}</span></td>
                                             <td><span class="main_link_{{ $item->id }}">{{ $item->link }}</span></td>
                                             <td class="text-center">
                                                 <div class="btn-group">
-                                                    <button
-                                                        type="button"
-                                                        class="dropdown-toggle text-white border border-0 py-1"
-                                                        data-bs-toggle="dropdown"
-                                                        aria-expanded="false"
-                                                        style="background-color: #32a893;">
-                                                            <i class="fas fa-cog"></i>
-                                                    </button>
-                                                    <ul class="dropdown-menu dropdown-menu-end">
-                                                        <li>
-                                                            <button
-                                                                class="dropdown-item main-btn-edit border-bottom"
-                                                                data-id="{{ $item->id }}"
-                                                                type="button">
-                                                                    <i
-                                                                        class="fas fa-pencil-alt border border-1 px-2 py-2 me-2 text-white"
-                                                                        style="background-color: #32a893;">
-                                                                    </i> Ubah
-                                                            </button>
-                                                        </li>
-                                                        <li>
-                                                            <button
-                                                                class="dropdown-item main-btn-delete"
-                                                                data-id="{{ $item->id }}"
-                                                                type="button">
-                                                                    <i
-                                                                        class="fas fa-trash-alt border border-1 px-2 py-2 me-2 text-white"
-                                                                        style="background-color: #32a893;">
-                                                                    </i> Hapus
-                                                            </button>
-                                                        </li>
-                                                    </ul>
+                                                    <a
+                                                        class="dropdown-toggle"
+                                                        data-toggle="dropdown"
+                                                        aria-haspopup="true"
+                                                        aria-expanded="false">
+                                                            <i class="fa fa-cog"></i>
+                                                    </a>
+                                                    <div class="dropdown-menu dropdown-menu-right">
+                                                        <a
+                                                            class="dropdown-item main-btn-edit"
+                                                            href="#"
+                                                            data-id="{{ $item->id }}">
+                                                                <i class="fa fa-pencil px-2"></i> Ubah
+                                                        </a>
+                                                        <a
+                                                            class="dropdown-item main-btn-delete"
+                                                            href="#"
+                                                            data-id="{{ $item->id }}">
+                                                                <i class="fa fa-trash px-2"></i> Hapus
+                                                        </a>
+                                                    </div>
                                                 </div>
                                             </td>
                                         </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="row mb-2 mt-1">
-                        <div class="col-md-4">
-                            <button
-                                id="sub-button-create"
-                                type="button"
-                                class="btn"
-                                title="Tambah">
-                                    <i
-                                        class="fas fa-plus border border-0 py-2 me-2 text-white"
-                                        style="background-color: #32a893; margin-left: -10px; padding-right: 10px; padding-left: 10px;">
-                                    </i> Tambah
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="card">
-                        <div class="card-body">
-                            <table id="table_two" class="table table-bordered">
-                                <thead style="background-color: #32a893;">
-                                    <tr>
-                                        <th class="text-white text-center fw-bold">No</th>
-                                        <th class="text-white text-center fw-bold">Title</th>
-                                        <th class="text-white text-center fw-bold">Link</th>
-                                        <th class="text-white text-center fw-bold">Nav Main</th>
-                                        <th class="text-white text-center fw-bold">Aksi</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($nav_subs as $key => $item)
-                                        <tr
-                                            @if ($key % 2 == 1)
-                                                echo class="tabel_active";
-                                            @endif
-                                        >
-                                            <td class="text-center">{{ $key + 1 }}</td>
-                                            <td><span class="sub_title_{{ $item->id }}">{{ $item->title }}</span></td>
-                                            <td><span class="sub_link_{{ $item->id }}">{{ $item->link }}</span></td>
-                                            <td>
-                                                <span class="sub_nav_main_{{ $item->id }}">
-                                                    @if ($item->navMain)
-                                                        {{ $item->navMain->title }}
-                                                    @else
-                                                        Data tidak ada
-                                                    @endif
-                                                </span>
-                                            </td>
-                                            <td class="text-center">
-                                                <div class="btn-group">
-                                                    <button
-                                                        type="button"
-                                                        class="dropdown-toggle text-white border border-0 py-1"
-                                                        data-bs-toggle="dropdown"
-                                                        aria-expanded="false"
-                                                        style="background-color: #32a893;">
-                                                            <i class="fas fa-cog"></i>
-                                                    </button>
-                                                    <ul class="dropdown-menu dropdown-menu-end">
-                                                        <li>
-                                                            <button
-                                                                class="dropdown-item sub-btn-edit border-bottom"
-                                                                data-id="{{ $item->id }}"
-                                                                type="button">
-                                                                    <i
-                                                                        class="fas fa-pencil-alt border border-1 px-2 py-2 me-2 text-white"
-                                                                        style="background-color: #32a893;">
-                                                                    </i> Ubah
-                                                            </button>
-                                                        </li>
-                                                        <li>
-                                                            <button
-                                                                class="dropdown-item sub-btn-delete"
-                                                                data-id="{{ $item->id }}"
-                                                                type="button">
-                                                                    <i
-                                                                        class="fas fa-trash-alt border border-1 px-2 py-2 me-2 text-white"
-                                                                        style="background-color: #32a893;">
-                                                                    </i> Hapus
-                                                            </button>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-
         </div>
-        <div class="mb-5"></div>
     </div>
 </div>
 
@@ -208,9 +172,9 @@
                     <h5 class="modal-title text-white">Tambah Menu Utama</h5>
                     <button
                         type="button"
-                        class="btn-close"
-                        data-bs-dismiss="modal"
-                        aria-label="Close">
+                        class="close"
+                        data-dismiss="modal">
+                            <span aria-hidden="true">x</span>
                     </button>
                 </div>
                 <div class="modal-body">
@@ -250,9 +214,9 @@
                     <h5 class="modal-title text-white">Tambah Menu Sub</h5>
                     <button
                         type="button"
-                        class="btn-close"
-                        data-bs-dismiss="modal"
-                        aria-label="Close">
+                        class="close"
+                        data-dismiss="modal">
+                            <span aria-hidden="true">x</span>
                     </button>
                 </div>
                 <div class="modal-body">
@@ -305,9 +269,9 @@
                     <h5 class="modal-title text-white">Ubah Menu Utama</h5>
                     <button
                         type="button"
-                        class="btn-close"
-                        data-bs-dismiss="modal"
-                        aria-label="Close">
+                        class="close"
+                        data-dismiss="modal">
+                            <span aria-hidden="true">x</span>
                     </button>
                 </div>
                 <div class="modal-body">
@@ -356,9 +320,9 @@
                     <h5 class="modal-title text-white">Ubah Menu Sub</h5>
                     <button
                         type="button"
-                        class="btn-close"
-                        data-bs-dismiss="modal"
-                        aria-label="Close">
+                        class="close"
+                        data-dismiss="modal">
+                            <span aria-hidden="true">x</span>
                     </button>
                 </div>
                 <div class="modal-body">
@@ -410,7 +374,7 @@
                     <h5 class="modal-title">Yakin akan dihapus <span class="main_delete_title text-decoration-underline"></span> ?</h5>
                 </div>
                 <div class="modal-footer justify-content-between">
-                    <button type="button" class="btn btn-secondary text-center" data-bs-dismiss="modal" style="width: 100px;">Tidak</button>
+                    <button type="button" class="btn btn-danger text-center" data-dismiss="modal" style="width: 100px;">Tidak</button>
                     <button type="submit" class="btn btn-primary text-center" style="width: 100px;">Ya</button>
                 </div>
             </form>
@@ -431,7 +395,7 @@
                     <h5 class="modal-title">Yakin akan dihapus <span class="sub_delete_title text-decoration-underline"></span> ?</h5>
                 </div>
                 <div class="modal-footer justify-content-between">
-                    <button type="button" class="btn btn-secondary text-center" data-bs-dismiss="modal" style="width: 100px;">Tidak</button>
+                    <button type="button" class="btn btn-danger text-center" data-dismiss="modal" style="width: 100px;">Tidak</button>
                     <button type="submit" class="btn btn-primary text-center" style="width: 100px;">Ya</button>
                 </div>
             </form>
@@ -453,11 +417,23 @@
 @endsection
 
 @section('script')
-<script src="{{ asset('lib/datatables/js/jquery.dataTables.min.js') }}"></script>
-<script src="{{ asset('lib/datatables/js/dataTables.bootstrap5.min.js') }}"></script>
-<script src="{{ asset('lib/datatables/js/dataTables.buttons.min.js') }}"></script>
-<script src="{{ asset('lib/datatables/js/jszip.min.js') }}"></script>
-<script src="{{ asset('lib/datatables/js/buttons.html5.min.js') }}"></script>
+
+<!-- Datatables -->
+<script src="{{ asset('theme/vendors/datatables.net/js/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('theme/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js') }}"></script>
+<script src="{{ asset('theme/vendors/datatables.net-buttons/js/dataTables.buttons.min.js') }}"></script>
+<script src="{{ asset('theme/vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js') }}"></script>
+<script src="{{ asset('theme/vendors/datatables.net-buttons/js/buttons.flash.min.js') }}"></script>
+<script src="{{ asset('theme/vendors/datatables.net-buttons/js/buttons.html5.min.js') }}"></script>
+<script src="{{ asset('theme/vendors/datatables.net-buttons/js/buttons.print.min.js') }}"></script>
+<script src="{{ asset('theme/vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js') }}"></script>
+<script src="{{ asset('theme/vendors/datatables.net-keytable/js/dataTables.keyTable.min.js') }}"></script>
+<script src="{{ asset('theme/vendors/datatables.net-responsive/js/dataTables.responsive.min.js') }}"></script>
+<script src="{{ asset('theme/vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js') }}"></script>
+<script src="{{ asset('theme/vendors/datatables.net-scroller/js/dataTables.scroller.min.js') }}"></script>
+<script src="{{ asset('theme/vendors/jszip/dist/jszip.min.js') }}"></script>
+<script src="{{ asset('theme/vendors/pdfmake/build/pdfmake.min.js') }}"></script>
+<script src="{{ asset('theme/vendors/pdfmake/build/vfs_fonts.js') }}"></script>
 
 <script>
     $(document).ready(function() {
