@@ -123,8 +123,8 @@
                                         @foreach ($nav_mains as $key => $item)
                                                 <tr>
                                             <td class="text-center">{{ $key + 1 }}</td>
-                                            <td><span class="main_title_{{ $item->id }}">{{ $item->title }}</span></td>
-                                            <td><span class="main_link_{{ $item->id }}">{{ $item->link }}</span></td>
+                                            <td class="main_title_{{ $item->id }}">{{ $item->title }}</td>
+                                            <td class="main_link_{{ $item->id }}">{{ $item->link }}</td>
                                             <td class="text-center">
                                                 <div class="btn-group">
                                                     <a
@@ -438,10 +438,6 @@
 <script>
     $(document).ready(function() {
         var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-
-        $('#table_one').DataTable({
-            'ordering': false
-        });
 
         $('#table_two').DataTable({
             'ordering': false
