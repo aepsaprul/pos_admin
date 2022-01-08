@@ -121,7 +121,7 @@
                                     </thead>
                                     <tbody>
                                         @foreach ($nav_mains as $key => $item)
-                                                <tr>
+                                        <tr>
                                             <td class="text-center">{{ $key + 1 }}</td>
                                             <td class="main_title_{{ $item->id }}">{{ $item->title }}</td>
                                             <td class="main_link_{{ $item->id }}">{{ $item->link }}</td>
@@ -198,7 +198,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="border-0 text-white" style="background-color: #32a893; padding: 5px 10px;">Simpan</button>
+                    <button type="submit" class="border-0 text-white" style="background-color: #32a893; padding: 5px 10px;"><i class="fa fa-save"></i> Simpan</button>
                 </div>
             </form>
         </div>
@@ -246,7 +246,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="border-0 text-white" style="background-color: #32a893; padding: 5px 10px;">Simpan</button>
+                    <button type="submit" class="border-0 text-white" style="background-color: #32a893; padding: 5px 10px;"><i class="fa fa-save"></i> Simpan</button>
                 </div>
             </form>
         </div>
@@ -297,7 +297,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="border-0 text-white" style="background-color: #32a893; padding: 5px 10px;">Simpan</button>
+                    <button type="submit" class="border-0 text-white" style="background-color: #32a893; padding: 5px 10px;"><i class="fa fa-save"></i> Perbaharui</button>
                 </div>
             </form>
         </div>
@@ -354,7 +354,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="border-0 text-white" style="background-color: #32a893; padding: 5px 10px;">Simpan</button>
+                    <button type="submit" class="border-0 text-white" style="background-color: #32a893; padding: 5px 10px;"><i class="fa fa-save"></i> Perbaharui</button>
                 </div>
             </form>
         </div>
@@ -408,7 +408,7 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-body">
-                Proses sukses.... <i class="fas fa-check" style="color: #32a893;"></i>
+                Proses sukses.... <i class="fa fa-check" style="color: #32a893;"></i>
             </div>
         </div>
     </div>

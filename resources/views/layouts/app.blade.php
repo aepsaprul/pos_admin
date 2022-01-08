@@ -67,7 +67,6 @@
                                         <li><a href="{{ route('employee.index') }}">Karyawan</a></li>
                                         <li><a href="{{ route('position.index') }}">Jabatan</a></li>
                                         <li><a href="{{ route('nav.index') }}">Navigasi</a></li>
-                                        <li><a href="{{ route('roles.index') }}">Roles</a></li>
                                         <li><a href="{{ route('user.index') }}">User</a></li>
                                         <li><a href="{{ route('product_category.index') }}">Kategori Produk</a></li>
                                         <li><a href="{{ route('product.index') }}">Produk</a></li>

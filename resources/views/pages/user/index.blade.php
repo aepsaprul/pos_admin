@@ -31,13 +31,12 @@
             <div class="col-md-12 col-sm-12 ">
                 <div class="x_panel">
                     <div class="x_title">
-                        <button
-                            id="button-create"
-                            type="button"
+                        <a
+                            href="{{ route('user.create') }}"
                             class="btn btn-primary btn-sm text-white pl-3 pr-3"
                             title="Tambah">
                                 <i class="fa fa-plus"></i> Tambah
-                        </button>
+                        </a>
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
@@ -47,11 +46,11 @@
                                     <table id="datatable" class="table table-striped table-bordered" style="width:100%">
                                         <thead style="background-color: #2A3F54;">
                                             <tr>
-                                                <th class="text-white text-center fw-bold">No</th>
-                                                <th class="text-white text-center fw-bold">Nama</th>
-                                                <th class="text-white text-center fw-bold">Email</th>
-                                                <th class="text-white text-center fw-bold">Roles</th>
-                                                <th class="text-white text-center fw-bold">Aksi</th>
+                                                <th class="text-center text-light">No</th>
+                                                <th class="text-center text-light">Nama</th>
+                                                <th class="text-center text-light">Email</th>
+                                                <th class="text-center text-light">Jabatan</th>
+                                                <th class="text-center text-light">Aksi</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -67,10 +66,10 @@
                                                         @endif
                                                     </td>
                                                     <td>
-                                                        @if ($item->roles)
-                                                            {{ $item->roles->name }}
+                                                        @if ($item->employee->position)
+                                                            {{ $item->employee->position->name }}
                                                         @else
-                                                            Roles tidak ada
+                                                            Jabatan tidak ada
                                                         @endif
                                                     </td>
                                                     <td class="text-center">
@@ -83,6 +82,11 @@
                                                                     <i class="fa fa-cog"></i>
                                                             </a>
                                                             <div class="dropdown-menu dropdown-menu-right">
+                                                                <a
+                                                                    class="dropdown-item"
+                                                                    href="#">
+                                                                        <i class="fa fa-key px-2"></i> Akses
+                                                                </a>
                                                                 <a
                                                                     class="dropdown-item btn-delete"
                                                                     href="#"
@@ -106,105 +110,6 @@
     </div>
 </div>
 <!-- /page content -->
-
-{{-- modal create  --}}
-<div class="modal fade modal-create" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <form id="form_create">
-                <div class="modal-header" style="background-color: #32a893;">
-                    <h5 class="modal-title text-white">Tambah User</h5>
-                    <button
-                        type="button"
-                        class="close"
-                        data-dismiss="modal">
-                            <span aria-hidden="true">x</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label for="create_employee_id" class="form-label">Nama Karyawan</label>
-                        <select name="create_employee_id" id="create_employee_id" class="form-control form-control-sm select2_employee">
-
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="create_password" class="form-label">Password</label>
-                        <input
-                            type="password"
-                            class="form-control form-control-sm"
-                            id="create_password"
-                            name="create_password"
-                            maxlength="100"
-                            required>
-                        <div class="form-check mt-2">
-                            <input class="form-check-input" type="checkbox" value="" id="view_password">
-                            <label class="form-check-label" for="view_password" style="font-size: 12px;">
-                                Lihat Password
-                            </label>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <label for="create_roles" class="form-label">Roles</label>
-                        <select id="create_roles" name="create_roles" class="form-control form-control-sm" required>
-
-                        </select>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="border-0 text-white" style="background-color: #32a893; padding: 5px 10px;"><i class="fa fa-save"></i> Simpan</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-{{-- modal edit  --}}
-<div class="modal fade modal-edit" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <form id="form_edit">
-
-                {{-- id  --}}
-                <input
-                    type="hidden"
-                    id="edit_id"
-                    name="edit_id">
-
-                <div class="modal-header" style="background-color: #32a893;">
-                    <h5 class="modal-title text-white">Ubah User</h5>
-                    <button
-                        type="button"
-                        class="close"
-                        data-dismiss="modal">
-                            <span aria-hidden="true">x</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label for="edit_name" class="form-label">Nama</label>
-                        <input
-                            type="text"
-                            class="form-control form-control-sm"
-                            id="edit_name"
-                            name="edit_name"
-                            maxlength="50"
-                            required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="edit_roles" class="form-label">Roles</label>
-                        <select id="edit_roles" name="edit_roles" class="form-control form-control-sm" required>
-
-                        </select>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="border-0 text-white" style="background-color: #32a893; padding: 5px 10px;"><i class="fa fa-save"></i> Perbaharui</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
 
 {{-- modal delete  --}}
 <div class="modal fade modal-delete" tabindex="-1">
@@ -265,75 +170,6 @@
 <script>
     $(document).ready(function() {
         var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-
-        $('#button-create').on('click', function() {
-            $('#create_roles').empty();
-            $('#create_employee_id').empty();
-
-            $.ajax({
-                url: '{{ URL::route('user.create') }}',
-                type: 'GET',
-                success: function(response) {
-                    var employee_val = "<option value=\"\">--Pilih Karyawan--</option>";
-
-                    $.each(response.employees, function(index, value) {
-                        employee_val += "<option value=\"" + value.id + "\">" + value.full_name + "</option>";
-                    });
-
-                    var roles_val = "<option value=\"\">--Pilih Roles--</option>";
-
-                    $.each(response.roles, function(index, value) {
-                        roles_val += "<option value=\"" + value.id + "\">" + value.name + "</option>";
-                    });
-
-                    $('#create_employee_id').append(employee_val);
-                    $('#create_roles').append(roles_val);
-                    $('.modal-create').modal('show');
-                }
-            });
-        });
-
-        $(document).on('shown.bs.modal', '.modal-create', function() {
-            $('#create_employee_id').focus();
-
-            $('.select2_employee').select2({
-                dropdownParent: $('.modal-create')
-            });
-        });
-
-        $('#view_password').on('change', function() {
-            if ($('#view_password').is(":checked")) {
-                $('#create_password').attr('type', 'text');
-            } else {
-                $('#create_password').attr('type', 'password');
-            }
-        });
-
-        $('#form_create').submit(function(e) {
-            e.preventDefault();
-
-            $('.modal-create').modal('hide');
-
-            var formData = {
-                employee_id: $('#create_employee_id').val(),
-                email: $('#create_email').val(),
-                password: $('#create_password').val(),
-                roles: $('#create_roles').val(),
-                _token: CSRF_TOKEN
-            }
-
-            $.ajax({
-                url: '{{ URL::route('user.store') }} ',
-                type: 'POST',
-                data: formData,
-                success: function(response) {
-                    $('.modal-proses').modal('show');
-                    setTimeout(() => {
-                        window.location.reload(1);
-                    }, 1000);
-                }
-            });
-        });
 
         $('body').on('click', '.btn-delete', function(e) {
             e.preventDefault()
