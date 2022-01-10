@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class NavMain extends Model
 {
     use HasFactory;
-    
+
     /**
      * Get all of the navSub for the NavMain
      *

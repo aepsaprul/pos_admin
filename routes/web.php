@@ -108,8 +108,8 @@ Route::middleware(['auth'])->group(function () {
         Route::post('master/user/update', [UserController::class, 'update'])->name('user.update');
         Route::get('master/user/{id}/delete_btn', [UserController::class, 'deleteBtn'])->name('user.delete_btn');
         Route::post('master/user/delete', [UserController::class, 'delete'])->name('user.delete');
-        Route::get('master/user/{id}/akses', [UserController::class, 'akses'])->name('user.akses');
-        Route::put('master/user/{id}/akses_simpan', [UserController::class, 'aksesSimpan'])->name('user.akses_simpan');
+        Route::get('master/user/{id}/access', [UserController::class, 'access'])->name('user.access');
+        Route::put('master/user/{id}/access_save', [UserController::class, 'accessSave'])->name('user.access_save');
 
         // product category
         Route::get('master/product_category', [ProductCategoryController::class, 'index'])->name('product_category.index');

@@ -31,12 +31,13 @@
             <div class="col-md-12 col-sm-12 ">
                 <div class="x_panel">
                     <div class="x_title">
-                        <a
-                            href="{{ route('user.create') }}"
+                        <button
+                            id="button-create"
+                            type="button"
                             class="btn btn-primary btn-sm text-white pl-3 pr-3"
                             title="Tambah">
                                 <i class="fa fa-plus"></i> Tambah
-                        </a>
+                        </button>
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
@@ -49,6 +50,7 @@
                                                 <th class="text-center text-light">No</th>
                                                 <th class="text-center text-light">Nama</th>
                                                 <th class="text-center text-light">Email</th>
+                                                <th class="text-center text-light">Toko</th>
                                                 <th class="text-center text-light">Jabatan</th>
                                                 <th class="text-center text-light">Aksi</th>
                                             </tr>
@@ -63,6 +65,13 @@
                                                             {{ $item->employee->email }}
                                                         @else
                                                             Email tidak ada
+                                                        @endif
+                                                    </td>
+                                                    <td>
+                                                        @if ($item->employee->shop)
+                                                            {{ $item->employee->shop->name }}
+                                                        @else
+                                                            Toko tidak ada
                                                         @endif
                                                     </td>
                                                     <td>
@@ -84,7 +93,7 @@
                                                             <div class="dropdown-menu dropdown-menu-right">
                                                                 <a
                                                                     class="dropdown-item"
-                                                                    href="#">
+                                                                    href="{{ route('user.access', [$item->id]) }}">
                                                                         <i class="fa fa-key px-2"></i> Akses
                                                                 </a>
                                                                 <a
@@ -111,6 +120,56 @@
 </div>
 <!-- /page content -->
 
+{{-- modal create  --}}
+<div class="modal fade modal-create" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <form id="form_create">
+                <div class="modal-header">
+                    <h5 class="modal-title">Tambah User</h5>
+                    <button
+                        type="button"
+                        class="close"
+                        data-dismiss="modal">
+                            <span aria-hidden="true">x</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="create_employee_id" class="form-label">Nama Karyawan</label>
+                        <select name="create_employee_id" id="create_employee_id" class="form-control form-control-sm select2_employee">
+
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="create_password" class="form-label">Password</label>
+                        <input
+                            type="password"
+                            class="form-control form-control-sm"
+                            id="create_password"
+                            name="create_password"
+                            maxlength="100"
+                            required>
+                        <div class="form-check mt-2">
+                            <input class="form-check-input" type="checkbox" value="" id="view_password">
+                            <label class="form-check-label" for="view_password" style="font-size: 12px;">
+                                Lihat Password
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary btn-create-spinner" disabled style="width: 120px; display: none;">
+                        <span class="spinner-grow spinner-grow-sm"></span>
+                        Loading..
+                    </button>
+                    <button type="submit" class="btn btn-primary btn-create-save" style="width: 120px;"><i class="fa fa-save"></i> Simpan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 {{-- modal delete  --}}
 <div class="modal fade modal-delete" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
@@ -124,21 +183,14 @@
                     <h5 class="modal-title">Yakin akan dihapus <span class="delete_title text-decoration-underline"></span> ?</h5>
                 </div>
                 <div class="modal-footer justify-content-between">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal"><span aria-hidden="true">Tidak</span></button>
-                    <button type="submit" class="btn btn-primary text-center" style="width: 100px;">Ya</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" style="width: 100px;"><span aria-hidden="true">Tidak</span></button>
+                    <button class="btn btn-primary btn-delete-spinner" disabled style="width: 120px; display: none;">
+                        <span class="spinner-grow spinner-grow-sm"></span>
+                        Loading..
+                    </button>
+                    <button type="submit" class="btn btn-primary btn-delete-yes text-center" style="width: 100px;">Ya</button>
                 </div>
             </form>
-        </div>
-    </div>
-</div>
-
-{{-- modal proses berhasil  --}}
-<div class="modal fade modal-proses" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-body">
-                Proses sukses.... <i class="fa fa-check" style="color: #32a893;"></i>
-            </div>
         </div>
     </div>
 </div>
@@ -171,6 +223,75 @@
     $(document).ready(function() {
         var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 
+        $('#button-create').on('click', function() {
+            $('#create_roles').empty();
+            $('#create_employee_id').empty();
+
+            $.ajax({
+                url: '{{ URL::route('user.create') }}',
+                type: 'GET',
+                success: function(response) {
+                    var employee_val = "<option value=\"\">--Pilih Karyawan--</option>";
+
+                    $.each(response.employees, function(index, value) {
+                        employee_val += "<option value=\"" + value.id + "\">" + value.full_name + "</option>";
+                    });
+
+                    $('#create_employee_id').append(employee_val);
+                    $('.modal-create').modal('show');
+                }
+            });
+        });
+
+        $(document).on('shown.bs.modal', '.modal-create', function() {
+            $('#create_employee_id').focus();
+
+            $('.select2_employee').select2({
+                dropdownParent: $('.modal-create')
+            });
+        });
+
+        $('#view_password').on('change', function() {
+            if ($('#view_password').is(":checked")) {
+                $('#create_password').attr('type', 'text');
+            } else {
+                $('#create_password').attr('type', 'password');
+            }
+        });
+
+        $('#form_create').submit(function(e) {
+            e.preventDefault();
+
+            var formData = {
+                employee_id: $('#create_employee_id').val(),
+                email: $('#create_email').val(),
+                password: $('#create_password').val(),
+                roles: $('#create_roles').val(),
+                _token: CSRF_TOKEN
+            }
+
+            $.ajax({
+                url: '{{ URL::route('user.store') }} ',
+                type: 'POST',
+                data: formData,
+                beforeSend: function() {
+                    $('.btn-create-spinner').css("display", "block");
+                    $('.btn-create-save').css("display", "none");
+                },
+                success: function(response) {
+                    var a = new PNotify({
+                        title: 'Success',
+                        text: 'Data berhasil ditambah',
+                        type: 'success',
+                        styling: 'bootstrap3'
+                    });
+                    setTimeout(() => {
+                        window.location.reload(1);
+                    }, 1000);
+                }
+            });
+        });
+
         $('body').on('click', '.btn-delete', function(e) {
             e.preventDefault()
 
@@ -198,8 +319,6 @@
         $('#form_delete').submit(function(e) {
             e.preventDefault();
 
-            $('.modal-delete').modal('hide');
-
             var formData = {
                 id: $('#delete_id').val(),
                 _token: CSRF_TOKEN
@@ -209,8 +328,17 @@
                 url: '{{ URL::route('user.delete') }}',
                 type: 'POST',
                 data: formData,
+                beforeSend: function() {
+                    $('.btn-delete-spinner').css("display", "block");
+                    $('.btn-delete-yes').css("display", "none");
+                },
                 success: function(response) {
-                    $('.modal-proses').modal('show');
+                    var a = new PNotify({
+                        title: 'Success',
+                        text: 'Data berhasil dihapus',
+                        type: 'danger',
+                        styling: 'bootstrap3'
+                    });
                     setTimeout(() => {
                         window.location.reload(1);
                     }, 1000);
