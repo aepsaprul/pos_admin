@@ -25,7 +25,22 @@
                     <div class="x_title">
                         <div class="col-md-4">
                             <div class="mb-1 row">
-                                <h5>{{ $employee->full_name }}</h5>
+                                <h5>
+                                    @if (count($syncs) != 0)
+                                        <div class="col-sm-8">
+                                            {{ $employee->full_name }}
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <button class="btn btn-success btn-sm btn-sync-spinner" disabled style="width: 120px; display: none;">
+                                                <span class="spinner-grow spinner-grow-sm"></span>
+                                                Loading..
+                                            </button>
+                                            <button class="btn btn-success btn-sm btn-sync" data-id="{{ $employee->id }}" style="width: 120px"><i class="fa fa-refresh"></i> Sync</button>
+                                        </div>
+                                    @else
+                                        {{ $employee->full_name }}
+                                    @endif
+                                </h5>
                             </div>
                         </div>
                             <div class="nav navbar-right panel_toolbox">
@@ -83,17 +98,6 @@
     </div>
 </div>
 <!-- /page content -->
-
-{{-- modal proses berhasil  --}}
-<div class="modal fade modal-proses" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-body">
-                Proses sukses.... <i class="fa fa-check" style="color: #32a893;"></i>
-            </div>
-        </div>
-    </div>
-</div>
 
 @endsection
 
@@ -256,6 +260,36 @@
                         type: 'success',
                         styling: 'bootstrap3'
                     });
+                }
+            });
+        });
+
+        // sync
+        $('.btn-sync').on('click', function() {
+            var formData = {
+                id: $(this).attr('data-id'),
+                _token: CSRF_TOKEN
+            }
+
+            $.ajax({
+                url: '{{ URL::route('user.sync') }}',
+                type: 'POST',
+                data: formData,
+                beforeSend: function() {
+                    $('.btn-sync-spinner').css("display", "block");
+                    $('.btn-sync').css("display", "none");
+                },
+                success: function(response) {
+                    var a = new PNotify({
+                        title: 'Success',
+                        text: 'Data berhasil di sinkronisasi',
+                        type: 'success',
+                        styling: 'bootstrap3'
+                    });
+
+                    setTimeout(() => {
+                        window.location.reload(1);
+                    }, 1000);
                 }
             });
         });

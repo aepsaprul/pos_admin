@@ -89,6 +89,9 @@
                                     <a href="{{ route('supplier.index') }}"><i class="fa fa-truck"></i> Supplier</a>
                                 </li>
                                 <li>
+                                    <a href="{{ route('supplier.index') }}"><i class="fa fa-gift"></i> Promo</a>
+                                </li>
+                                <li>
                                     <a><i class="fa fa-copy"></i> Laporan <span class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
                                         <li><a href="{{ route('report.index') }}">Penjualan</a></li>

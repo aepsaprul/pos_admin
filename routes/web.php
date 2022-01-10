@@ -110,6 +110,7 @@ Route::middleware(['auth'])->group(function () {
         Route::post('master/user/delete', [UserController::class, 'delete'])->name('user.delete');
         Route::get('master/user/{id}/access', [UserController::class, 'access'])->name('user.access');
         Route::put('master/user/{id}/access_save', [UserController::class, 'accessSave'])->name('user.access_save');
+        Route::post('master/user/sync', [UserController::class, 'sync'])->name('user.sync');
 
         // product category
         Route::get('master/product_category', [ProductCategoryController::class, 'index'])->name('product_category.index');

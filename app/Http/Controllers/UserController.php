@@ -75,10 +75,15 @@ class UserController extends Controller
             ->groupBy('main_id')
             ->get();
 
+        $sync = NavAccess::rightJoin('nav_subs', 'nav_accesses.sub_id', '=', 'nav_subs.id')
+            ->whereNull('user_id')
+            ->get();
+
         return view('pages.user.access', [
             'employee' => $employee,
             'menus' => $menu,
-            'subs' => $sub
+            'subs' => $sub,
+            'syncs' => $sync
         ]);
     }
 
@@ -127,6 +132,30 @@ class UserController extends Controller
 
         return response()->json([
             'status' => 'Data berhasil dihapus'
+        ]);
+    }
+
+    public function sync(Request $request)
+    {
+        $employee = Employee::where('id', $request->id)->first();
+        $syncs = NavAccess::rightJoin('nav_subs', 'nav_accesses.sub_id', '=', 'nav_subs.id')
+            ->whereNull('user_id')
+            ->get();
+
+        foreach ($syncs as $key => $item) {
+            $nav_access = new NavAccess;
+            $nav_access->user_id = $employee->id;
+            $nav_access->main_id = $item->nav_main_id;
+            $nav_access->sub_id = $item->id;
+            $nav_access->show = "n";
+            $nav_access->create = "n";
+            $nav_access->edit = "n";
+            $nav_access->delete = "n";
+            $nav_access->save();
+        }
+
+        return response()->json([
+            'status' => 'success'
         ]);
     }
 }

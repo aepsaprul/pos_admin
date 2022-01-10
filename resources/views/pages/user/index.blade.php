@@ -68,17 +68,25 @@
                                                         @endif
                                                     </td>
                                                     <td>
-                                                        @if ($item->employee->shop)
-                                                            {{ $item->employee->shop->name }}
+                                                        @if ($item->employee)
+                                                            @if ($item->employee->shop)
+                                                                {{ $item->employee->shop->name }}
+                                                            @else
+                                                                Toko tidak ada
+                                                            @endif
                                                         @else
-                                                            Toko tidak ada
+                                                            Karyawan tidak ada
                                                         @endif
                                                     </td>
                                                     <td>
-                                                        @if ($item->employee->position)
-                                                            {{ $item->employee->position->name }}
+                                                        @if ($item->employee)
+                                                            @if ($item->employee->position)
+                                                                {{ $item->employee->position->name }}
+                                                            @else
+                                                                Jabatan tidak ada
+                                                            @endif
                                                         @else
-                                                            Jabatan tidak ada
+                                                            Karyawan tidak ada
                                                         @endif
                                                     </td>
                                                     <td class="text-center">
