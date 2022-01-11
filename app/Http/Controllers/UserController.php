@@ -75,9 +75,25 @@ class UserController extends Controller
             ->groupBy('main_id')
             ->get();
 
-        $sync = NavAccess::rightJoin('nav_subs', 'nav_accesses.sub_id', '=', 'nav_subs.id')
+        $employee_id = $employee->id;
+        $sync = DB::table('nav_subs')
+            ->select('nav_subs.id AS nav_sub_id', 'nav_subs.title AS title', 'nav_subs.nav_main_id AS nav_main')
+            ->leftJoin('nav_accesses', function($join) use ($employee_id) {
+                $join->on('nav_subs.id', '=', 'nav_accesses.sub_id')
+                    ->where('nav_accesses.user_id', '=', $employee_id);
+            })
             ->whereNull('user_id')
             ->get();
+
+            // dd($sync);
+
+            // SELECT * FROM
+            // (select * FROM `nav_accesses` WHERE user_id = 4) AS nav_user
+            // LEFT JOIN nav_subs ON (nav_subs.id = nav_user.sub_id);
+
+            // SELECT * FROM nav_subs LEFT JOIN
+            //     (SELECT * FROM nav_accesses WHERE user_id = 3)
+            //     AS navaccess ON navaccess.sub_id = nav_subs.id WHERE user_id IS null;
 
         return view('pages.user.access', [
             'employee' => $employee,
@@ -138,15 +154,22 @@ class UserController extends Controller
     public function sync(Request $request)
     {
         $employee = Employee::where('id', $request->id)->first();
-        $syncs = NavAccess::rightJoin('nav_subs', 'nav_accesses.sub_id', '=', 'nav_subs.id')
+
+        $employee_id = $employee->id;
+        $sync = DB::table('nav_subs')
+            ->select('nav_subs.id AS nav_sub_id', 'nav_subs.title AS title', 'nav_subs.nav_main_id AS nav_main')
+            ->leftJoin('nav_accesses', function($join) use ($employee_id) {
+                $join->on('nav_subs.id', '=', 'nav_accesses.sub_id')
+                    ->where('nav_accesses.user_id', '=', $employee_id);
+            })
             ->whereNull('user_id')
             ->get();
 
-        foreach ($syncs as $key => $item) {
+        foreach ($sync as $key => $item) {
             $nav_access = new NavAccess;
             $nav_access->user_id = $employee->id;
-            $nav_access->main_id = $item->nav_main_id;
-            $nav_access->sub_id = $item->id;
+            $nav_access->main_id = $item->nav_main;
+            $nav_access->sub_id = $item->nav_sub_id;
             $nav_access->show = "n";
             $nav_access->create = "n";
             $nav_access->edit = "n";
