@@ -51,10 +51,10 @@ class UserController extends Controller
             $nav_access->user_id = $request->employee_id;
             $nav_access->main_id = $item->nav_main_id;
             $nav_access->sub_id = $item->id;
-            $nav_access->show = "n";
-            $nav_access->create = "n";
-            $nav_access->edit = "n";
-            $nav_access->delete = "n";
+            $nav_access->tampil = "n";
+            $nav_access->tambah = "n";
+            $nav_access->ubah = "n";
+            $nav_access->hapus = "n";
             $nav_access->save();
         }
 
@@ -108,16 +108,16 @@ class UserController extends Controller
         $nav_access = NavAccess::find($id);
 
         if ($request->show) {
-            $nav_access->show = $request->show;
+            $nav_access->tampil = $request->show;
         }
         if ($request->create) {
-            $nav_access->create = $request->create;
+            $nav_access->tambah = $request->create;
         }
         if ($request->edit) {
-            $nav_access->edit = $request->edit;
+            $nav_access->ubah = $request->edit;
         }
         if ($request->delete) {
-            $nav_access->delete = $request->delete;
+            $nav_access->hapus = $request->delete;
         }
 
         $nav_access->save();
@@ -170,10 +170,10 @@ class UserController extends Controller
             $nav_access->user_id = $employee->id;
             $nav_access->main_id = $item->nav_main;
             $nav_access->sub_id = $item->nav_sub_id;
-            $nav_access->show = "n";
-            $nav_access->create = "n";
-            $nav_access->edit = "n";
-            $nav_access->delete = "n";
+            $nav_access->tampil = "n";
+            $nav_access->tambah = "n";
+            $nav_access->ubah = "n";
+            $nav_access->hapus = "n";
             $nav_access->save();
         }
 

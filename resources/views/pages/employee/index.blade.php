@@ -638,6 +638,8 @@
 
                     setTimeout(() => {
                         $('.modal-edit').modal('hide');
+                        $('.btn-edit-spinner').css("display", "none");
+                        $('.btn-edit-save').css("display", "block");
                     }, 1000);
                 },
                 error: function(xhr, status, error){

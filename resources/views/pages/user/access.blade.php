@@ -71,7 +71,7 @@
                                                         @if ($item_menu->main_id == $item->main_id)
                                                                 <td>{{ $item_menu->navSub->title }}</td>
                                                                 <td class="text-center">
-                                                                    <input type="checkbox" name="index[]" id="index_{{ $item_menu->id }}" data-id="{{ $item_menu->id }}" value="{{ $item_menu->show }}" {{ $item_menu->show == "y" ? 'checked' : '' }}>
+                                                                    <input type="checkbox" name="index[]" id="index_{{ $item_menu->id }}" data-id="{{ $item_menu->id }}" value="{{ $item_menu->tampil }}" {{ $item_menu->tampil == "y" ? 'checked' : '' }}>
                                                                 </td>
                                                                 <td class="text-center">
                                                                     <input type="checkbox" name="create[]" id="create_{{ $item_menu->id }}" data-id="{{ $item_menu->id }}" value="{{ $item_menu->create }}" {{ $item_menu->create == "y" ? 'checked' : '' }}>

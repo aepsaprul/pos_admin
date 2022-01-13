@@ -14,8 +14,11 @@ class NavMain extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function navSub()
-    {
+    public function navSub() {
         return $this->hasMany(NavSub::class, 'nav_main_id', 'id');
+    }
+
+    public function navAccess() {
+        return $this->hasMany(NavAccess::class, 'main_id', 'id');
     }
 }

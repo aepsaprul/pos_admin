@@ -63,63 +63,82 @@
                     <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
                         <div class="menu_section">
                             <ul class="nav side-menu">
-                                <li>
-                                    <a href="{{ url('home') }}"><i class="fa fa-home"></i> Dashboard</a>
-                                </li>
-                                <li>
-                                    <a><i class="fa fa-database"></i> Master <span class="fa fa-chevron-down"></span></a>
-                                    <ul class="nav child_menu">
-                                        <li><a href="{{ route('employee.index') }}">Karyawan</a></li>
-                                        <li><a href="{{ route('position.index') }}">Jabatan</a></li>
-                                        <li><a href="{{ route('nav.index') }}">Navigasi</a></li>
-                                        <li><a href="{{ route('user.index') }}">User</a></li>
-                                        <li><a href="{{ route('product_category.index') }}">Kategori Produk</a></li>
-                                        <li><a href="{{ route('product.index') }}">Produk</a></li>
-                                        <li><a href="{{ route('shop.index') }}">Toko</a></li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <a><i class="fa fa-exchange"></i> Transaksi Gudang <span class="fa fa-chevron-down"></span></a>
-                                    <ul class="nav child_menu">
-                                        <li><a href="{{ route('product_in.index') }}">Produk Masuk</a></li>
-                                        <li><a href="{{ route('inventory_invoice.index') }}">Produk Keluar</a></li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <a href="{{ route('supplier.index') }}"><i class="fa fa-truck"></i> Supplier</a>
-                                </li>
-                                <li>
-                                    <a href="{{ route('supplier.index') }}"><i class="fa fa-gift"></i> Promo</a>
-                                </li>
-                                <li>
-                                    <a><i class="fa fa-copy"></i> Laporan <span class="fa fa-chevron-down"></span></a>
-                                    <ul class="nav child_menu">
-                                        <li><a href="{{ route('report.index') }}">Penjualan</a></li>
-                                        <li><a href="{{ route('report.customer_index') }}">Customer</a></li>
-                                        <li><a href="{{ route('report.product_index') }}">Produk</a></li>
-                                        <li><a href="{{ route('report.income_index') }}">Laba Rugi</a></li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <a href="{{ route('product_shop.index') }}"><i class="fa fa-archive"></i> Produk</a>
-                                </li>
-                                <li>
-                                    <a><i class="fa fa-exchange"></i> Transaksi Toko <span class="fa fa-chevron-down"></span></a>
-                                    <ul class="nav child_menu">
-                                        <li><a href="{{ route('received_product.index') }}">Produk Masuk</a></li>
-                                        <li><a href="{{ route('invoice.index') }}">Penjualan</a></li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <a href="{{ route('customer.index') }}"><i class="fa fa-users"></i> Customer</a>
-                                </li>
-                                <li>
-                                    <a><i class="fa fa-inbox"></i> Kasir <span class="fa fa-chevron-down"></span></a>
-                                    <ul class="nav child_menu">
-                                        <li><a href="{{ route('cashier.index') }}">Cash</a></li>
-                                        <li><a href="{{ route('cashier.credit') }}">Tempo</a></li>
-                                    </ul>
-                                </li>
+                                @if (Auth::user()->employee_id == null)
+                                    <li>
+                                        <a href="{{ url('home') }}"><i class="fa fa-home"></i> Dashboard</a>
+                                    </li>
+                                    <li>
+                                        <a><i class="fa fa-database"></i> Master <span class="fa fa-chevron-down"></span></a>
+                                        <ul class="nav child_menu">
+                                            <li><a href="{{ route('employee.index') }}">Karyawan</a></li>
+                                            <li><a href="{{ route('position.index') }}">Jabatan</a></li>
+                                            <li><a href="{{ route('nav.index') }}">Navigasi</a></li>
+                                            <li><a href="{{ route('user.index') }}">User</a></li>
+                                            <li><a href="{{ route('product_category.index') }}">Kategori Produk</a></li>
+                                            <li><a href="{{ route('product.index') }}">Produk</a></li>
+                                            <li><a href="{{ route('shop.index') }}">Toko</a></li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <a><i class="fa fa-exchange"></i> Transaksi Gudang <span class="fa fa-chevron-down"></span></a>
+                                        <ul class="nav child_menu">
+                                            <li><a href="{{ route('product_in.index') }}">Produk Masuk</a></li>
+                                            <li><a href="{{ route('inventory_invoice.index') }}">Produk Keluar</a></li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <a href="{{ route('supplier.index') }}"><i class="fa fa-truck"></i> Supplier</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ route('supplier.index') }}"><i class="fa fa-gift"></i> Promo</a>
+                                    </li>
+                                    <li>
+                                        <a><i class="fa fa-copy"></i> Laporan <span class="fa fa-chevron-down"></span></a>
+                                        <ul class="nav child_menu">
+                                            <li><a href="{{ route('report.index') }}">Penjualan</a></li>
+                                            <li><a href="{{ route('report.customer_index') }}">Customer</a></li>
+                                            <li><a href="{{ route('report.product_index') }}">Produk</a></li>
+                                            <li><a href="{{ route('report.income_index') }}">Laba Rugi</a></li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <a href="{{ route('product_shop.index') }}"><i class="fa fa-archive"></i> Produk</a>
+                                    </li>
+                                    <li>
+                                        <a><i class="fa fa-exchange"></i> Transaksi Toko <span class="fa fa-chevron-down"></span></a>
+                                        <ul class="nav child_menu">
+                                            <li><a href="{{ route('received_product.index') }}">Produk Masuk</a></li>
+                                            <li><a href="{{ route('invoice.index') }}">Penjualan</a></li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <a href="{{ route('customer.index') }}"><i class="fa fa-users"></i> Customer</a>
+                                    </li>
+                                    <li>
+                                        <a><i class="fa fa-inbox"></i> Kasir <span class="fa fa-chevron-down"></span></a>
+                                        <ul class="nav child_menu">
+                                            <li><a href="{{ route('cashier.index') }}">Cash</a></li>
+                                            <li><a href="{{ route('cashier.credit') }}">Tempo</a></li>
+                                        </ul>
+                                    </li>
+                                @else
+                                    @foreach ($current_nav_mains as $item)
+                                    <li>
+                                        @if ($item->link != '#')
+                                            <a href="{{ url($item->link) }}"><i class="{{ $item->icon }}"></i> {{ $item->title }}</a>
+                                        @else
+                                            <a href="#"><i class="{{ $item->icon }}"></i> {{ $item->title }}<span class="fa fa-chevron-down"></span></a>
+                                        @endif
+                                        <ul class="nav child_menu">
+                                            @foreach ($current_menus as $item_menu)
+                                                @if ($item_menu->main_id == $item->id)
+                                                    <li><a href="{{ url($item_menu->navSub->link) }}">{{ $item_menu->navSub->title }}</a></li>
+                                                @endif
+                                            @endforeach
+                                        </ul>
+                                    </li>
+                                    @endforeach
+                                @endif
                             </ul>
                         </div>
                     </div>
