@@ -58,9 +58,9 @@
                                                 <th class="text-center text-light">Main</th>
                                                 <th class="text-center text-light">Sub</th>
                                                 <th class="text-center text-light">Index</th>
-                                                <th class="text-center text-light">Tambah</th>
+                                                {{-- <th class="text-center text-light">Tambah</th>
                                                 <th class="text-center text-light">Ubah</th>
-                                                <th class="text-center text-light">Hapus</th>
+                                                <th class="text-center text-light">Hapus</th> --}}
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -73,7 +73,7 @@
                                                                 <td class="text-center">
                                                                     <input type="checkbox" name="index[]" id="index_{{ $item_menu->id }}" data-id="{{ $item_menu->id }}" value="{{ $item_menu->tampil }}" {{ $item_menu->tampil == "y" ? 'checked' : '' }}>
                                                                 </td>
-                                                                <td class="text-center">
+                                                                {{-- <td class="text-center">
                                                                     <input type="checkbox" name="create[]" id="create_{{ $item_menu->id }}" data-id="{{ $item_menu->id }}" value="{{ $item_menu->create }}" {{ $item_menu->create == "y" ? 'checked' : '' }}>
                                                                 </td>
                                                                 <td class="text-center">
@@ -81,7 +81,7 @@
                                                                 </td>
                                                                 <td class="text-center">
                                                                     <input type="checkbox" name="delete[]" id="delete_{{ $item_menu->id }}" data-id="{{ $item_menu->id }}" value="{{ $item_menu->delete }}" {{ $item_menu->delete == "y" ? 'checked' : '' }}>
-                                                                </td>
+                                                                </td> --}}
                                                             </tr>
                                                         @endif
                                                     @endforeach
