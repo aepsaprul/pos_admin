@@ -123,20 +123,22 @@
                                     </li>
                                 @else
                                     @foreach ($current_nav_mains as $item)
-                                    <li>
-                                        @if ($item->link != '#')
-                                            <a href="{{ url($item->link) }}"><i class="{{ $item->icon }}"></i> {{ $item->title }}</a>
-                                        @else
+                                    @if ($item->link == '#')
+                                        <li>
                                             <a href="#"><i class="{{ $item->icon }}"></i> {{ $item->title }}<span class="fa fa-chevron-down"></span></a>
-                                        @endif
-                                        <ul class="nav child_menu">
-                                            @foreach ($current_menus as $item_menu)
-                                                @if ($item_menu->main_id == $item->id)
-                                                    <li><a href="{{ url($item_menu->navSub->link) }}">{{ $item_menu->navSub->title }}</a></li>
-                                                @endif
-                                            @endforeach
-                                        </ul>
-                                    </li>
+                                            <ul class="nav child_menu">
+                                                @foreach ($current_menus as $item_menu)
+                                                    @if ($item_menu->main_id == $item->id)
+                                                        <li><a href="{{ url($item_menu->navSub->link) }}">{{ $item_menu->navSub->title }}</a></li>
+                                                    @endif
+                                                @endforeach
+                                            </ul>
+                                        </li>
+                                        @else
+                                        <li>
+                                            <a href="{{ url($item->link) }}"><i class="{{ $item->icon }}"></i> {{ $item->title }}</a>
+                                        </li>
+                                    @endif
                                     @endforeach
                                 @endif
                             </ul>

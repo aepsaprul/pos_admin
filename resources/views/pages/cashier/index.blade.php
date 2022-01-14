@@ -55,7 +55,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="mb-1 row">
+                                    <div class="mb-1 row" id="div_pay" style="display: none;">
                                         <label for="pay" class="col-sm-4 col-form-label"><strong>Bayar</strong></label>
                                         <div class="col-sm-8">
                                             <input type="text" class="form-control form-control-sm" id="pay" name="pay">
@@ -382,6 +382,14 @@
         var payRupiah = document.getElementById("pay");
         payRupiah.addEventListener("keyup", function(e) {
             payRupiah.value = formatRupiah(this.value, "");
+        });
+
+        $('#pay_method').on('change', function() {
+            if ($(this).val() == 1 || $(this).val() == 2 ) {
+                $('#div_pay').css('display', 'flex');
+            } else {
+                $('#div_pay').css('display', 'none');
+            }
         });
 
         $('#pay').on('keypress change', function(event) {

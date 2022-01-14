@@ -18,10 +18,10 @@ class CreateNavAccessesTable extends Migration
             $table->integer('user_id')->nullable();
             $table->integer('main_id')->nullable();
             $table->integer('sub_id')->nullable();
-            $table->char('show', 1)->nullable();
-            $table->char('create', 1)->nullable();
-            $table->char('edit', 1)->nullable();
-            $table->char('delete', 1)->nullable();
+            $table->char('tampil', 1)->nullable();
+            $table->char('tambah', 1)->nullable();
+            $table->char('ubah', 1)->nullable();
+            $table->char('hapus', 1)->nullable();
             $table->timestamps();
         });
     }
