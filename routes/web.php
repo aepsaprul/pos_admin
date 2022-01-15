@@ -16,6 +16,7 @@ use App\Http\Controllers\PositionController;
 use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductShopController;
+use App\Http\Controllers\PromoController;
 use App\Http\Controllers\ReceiveProductController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\RolesController;
@@ -137,27 +138,6 @@ Route::middleware(['auth'])->group(function () {
         Route::get('master/shop/{id}/delete_btn', [ShopController::class, 'deleteBtn'])->name('shop.delete_btn');
         Route::post('master/shop/delete', [ShopController::class, 'delete'])->name('shop.delete');
 
-
-    // customer
-    Route::get('customer', [CustomerController::class, 'index'])->name('customer.index');
-    Route::post('customer/store', [CustomerController::class, 'store'])->name('customer.store');
-    Route::post('customer/update', [CustomerController::class, 'update'])->name('customer.update');
-    Route::get('customer/{id}/edit', [CustomerController::class, 'edit'])->name('customer.edit');
-    Route::get('customer/{id}/delete_btn', [CustomerController::class, 'deleteBtn'])->name('customer.delete_btn');
-    Route::post('customer/delete', [CustomerController::class, 'delete'])->name('customer.delete');
-
-    // home
-    Route::post('home/product', [HomeController::class, 'getProduct'])->name('home.product');
-    Route::post('home/sales-save', [HomeController::class, 'salesSave'])->name('home.sales_save');
-
-    // supplier
-    Route::get('supplier', [SupplierController::class, 'index'])->name('supplier.index');
-    Route::post('supplier/store', [SupplierController::class, 'store'])->name('supplier.store');
-    Route::post('supplier/update', [SupplierController::class, 'update'])->name('supplier.update');
-    Route::get('supplier/{id}/edit', [SupplierController::class, 'edit'])->name('supplier.edit');
-    Route::get('supplier/{id}/delete_btn', [SupplierController::class, 'deleteBtn'])->name('supplier.delete_btn');
-    Route::post('supplier/delete', [SupplierController::class, 'delete'])->name('supplier.delete');
-
     // transaction inventory
 
         // product in
@@ -178,79 +158,35 @@ Route::middleware(['auth'])->group(function () {
         Route::get('inventory_transaction/product_out/{id}/delete_btn', [InventroryProductOutController::class, 'deleteBtn'])->name('product_out.delete_btn');
         Route::post('inventory_transaction/product_out/delete', [InventroryProductOutController::class, 'delete'])->name('product_out.delete');
 
-    // transaction shop
+        // inventory product out
+        Route::get('inventory_invoice', [InventoryInvoiceController::class, 'index'])->name('inventory_invoice.index');
+        Route::get('inventory_invoice/{id}/show', [InventoryInvoiceController::class, 'show'])->name('inventory_invoice.show');
+        Route::get('inventory_invoice/{id}/delete_btn', [InventoryInvoiceController::class, 'deleteBtn'])->name('inventory_invoice.delete_btn');
+        Route::post('inventory_invoice/delete', [InventoryInvoiceController::class, 'delete'])->name('inventory_invoice.delete');
 
-        // receive product
-        Route::get('shop_transaction/received_product', [ReceiveProductController::class, 'index'])->name('received_product.index');
-        Route::get('shop_transaction/received_product/create', [ReceiveProductController::class, 'create'])->name('received_product.create');
-        Route::post('shop_transaction/received_product/store', [ReceiveProductController::class, 'store'])->name('received_product.store');
-        Route::post('shop_transaction/received_product/update', [ReceiveProductController::class, 'update'])->name('received_product.update');
-        Route::get('shop_transaction/received_product/{id}/edit', [ReceiveProductController::class, 'edit'])->name('received_product.edit');
-        Route::get('shop_transaction/received_product/{id}/delete_btn', [ReceiveProductController::class, 'deleteBtn'])->name('received_product.delete_btn');
-        Route::post('shop_transaction/received_product/delete', [ReceiveProductController::class, 'delete'])->name('received_product.delete');
+        // inventory cashier
+        Route::get('inventory_cashier', [InventoryCashierController::class, 'index'])->name('inventory_cashier.index');
+        Route::post('inventory_cashier/product', [InventoryCashierController::class, 'getProduct'])->name('inventory_cashier.product');
+        Route::post('inventory_cashier/product-out-save', [InventoryCashierController::class, 'productOutSave'])->name('inventory_cashier.product_out_save');
+        Route::delete('inventory_cashier/{id}/delete', [InventoryCashierController::class, 'delete'])->name('inventory_cashier.delete');
+        Route::post('inventory_cashier/print', [InventoryCashierController::class, 'print'])->name('inventory_cashier.print');
 
-        // sales
-        Route::get('shop_transaction/sales', [SalesController::class, 'index'])->name('sales.index');
-        Route::get('shop_transaction/sales/{id}/show', [SalesController::class, 'show'])->name('sales.show');
-        Route::get('shop_transaction/sales/{id}/delete_btn', [SalesController::class, 'deleteBtn'])->name('sales.delete_btn');
-        Route::post('shop_transaction/sales/delete', [SalesController::class, 'delete'])->name('sales.delete');
+    // supplier
+    Route::get('supplier', [SupplierController::class, 'index'])->name('supplier.index');
+    Route::post('supplier/store', [SupplierController::class, 'store'])->name('supplier.store');
+    Route::post('supplier/update', [SupplierController::class, 'update'])->name('supplier.update');
+    Route::get('supplier/{id}/edit', [SupplierController::class, 'edit'])->name('supplier.edit');
+    Route::get('supplier/{id}/delete_btn', [SupplierController::class, 'deleteBtn'])->name('supplier.delete_btn');
+    Route::post('supplier/delete', [SupplierController::class, 'delete'])->name('supplier.delete');
 
-        // invoice
-        Route::get('shop_transaction/invoice', [InvoiceController::class, 'index'])->name('invoice.index');
-        Route::get('shop_transaction/invoice/{id}/show', [InvoiceController::class, 'show'])->name('invoice.show');
-        Route::get('shop_transaction/invoice/{id}/delete_btn', [InvoiceController::class, 'deleteBtn'])->name('invoice.delete_btn');
-        Route::post('shop_transaction/invoice/delete', [InvoiceController::class, 'delete'])->name('invoice.delete');
-
-    // inventory stock
-    Route::get('inventory_stock', [InventoryStockController::class, 'index'])->name('inventory_stock.index');
-    Route::get('inventory_stock/get_data', [InventoryStockController::class, 'getData'])->name('inventory_stock.get_data');
-    Route::get('inventory_stock/low', [InventoryStockController::class, 'low'])->name('inventory_stock.low');
-    Route::get('inventory_stock/empty', [InventoryStockController::class, 'empty'])->name('inventory_stock.empty');
-
-    // shop stock
-    Route::get('shop_stock', [ShopStockController::class, 'index'])->name('shop_stock.index');
-    Route::get('shop_stock/get_data', [ShopStockController::class, 'getData'])->name('shop_stock.get_data');
-    Route::get('shop_stock/low', [ShopStockController::class, 'low'])->name('shop_stock.low');
-    Route::get('shop_stock/empty', [ShopStockController::class, 'empty'])->name('shop_stock.empty');
-
-    // product shop
-    Route::get('product_shop', [ProductShopController::class, 'index'])->name('product_shop.index');
-    Route::get('product_shop/create', [ProductShopController::class, 'create'])->name('product_shop.create');
-    Route::post('product_shop/store', [ProductShopController::class, 'store'])->name('product_shop.store');
-    Route::post('product_shop/update', [ProductShopController::class, 'update'])->name('product_shop.update');
-    Route::get('product_shop/{id}/edit', [ProductShopController::class, 'edit'])->name('product_shop.edit');
-    Route::get('product_shop/{id}/delete_btn', [ProductShopController::class, 'deleteBtn'])->name('product_shop.delete_btn');
-    Route::post('product_shop/delete', [ProductShopController::class, 'delete'])->name('product_shop.delete');
-
-    // inventory product out
-    Route::get('inventory_invoice', [InventoryInvoiceController::class, 'index'])->name('inventory_invoice.index');
-    Route::get('inventory_invoice/{id}/show', [InventoryInvoiceController::class, 'show'])->name('inventory_invoice.show');
-    Route::get('inventory_invoice/{id}/delete_btn', [InventoryInvoiceController::class, 'deleteBtn'])->name('inventory_invoice.delete_btn');
-    Route::post('inventory_invoice/delete', [InventoryInvoiceController::class, 'delete'])->name('inventory_invoice.delete');
-
-    // inventory cashier
-    Route::get('inventory_cashier', [InventoryCashierController::class, 'index'])->name('inventory_cashier.index');
-    Route::post('inventory_cashier/product', [InventoryCashierController::class, 'getProduct'])->name('inventory_cashier.product');
-    Route::post('inventory_cashier/product-out-save', [InventoryCashierController::class, 'productOutSave'])->name('inventory_cashier.product_out_save');
-    Route::delete('inventory_cashier/{id}/delete', [InventoryCashierController::class, 'delete'])->name('inventory_cashier.delete');
-    Route::post('inventory_cashier/print', [InventoryCashierController::class, 'print'])->name('inventory_cashier.print');
-
-    // shop stock
-    Route::get('shop_stock', [ShopStockController::class, 'index'])->name('shop_stock.index');
-    Route::get('shop_stock/get_data', [ShopStockController::class, 'getData'])->name('shop_stock.get_data');
-    Route::get('shop_stock/low', [ShopStockController::class, 'low'])->name('shop_stock.low');
-    Route::get('shop_stock/empty', [ShopStockController::class, 'empty'])->name('shop_stock.empty');
-
-    // cashier
-        // cash
-        Route::get('cashier', [CashierController::class, 'index'])->name('cashier.index');
-        Route::post('cashier/product', [CashierController::class, 'getProduct'])->name('cashier.product');
-        Route::post('cashier/sales-save', [CashierController::class, 'salesSave'])->name('cashier.sales_save');
-        Route::post('cashier/print', [CashierController::class, 'print'])->name('cashier.print');
-        Route::delete('cashier/{id}/delete', [CashierController::class, 'delete'])->name('cashier.delete');
-
-        // credit
-        Route::get('cashier/credit', [CashierController::class, 'credit'])->name('cashier.credit');
+    // promo
+    Route::get('promo', [PromoController::class, 'index'])->name('promo.index');
+    Route::post('promo/store', [PromoController::class, 'store'])->name('promo.store');
+    Route::put('promo/{id}/update', [PromoController::class, 'update'])->name('promo.update');
+    Route::get('promo/{id}/edit', [PromoController::class, 'edit'])->name('promo.edit');
+    Route::get('promo/{id}/delete_btn', [PromoController::class, 'deleteBtn'])->name('promo.delete_btn');
+    Route::post('promo/delete', [PromoController::class, 'delete'])->name('promo.delete');
+    Route::put('promo/{id}/publish', [PromoController::class, 'publish'])->name('promo.publish');
 
     // report
         // sales
@@ -276,4 +212,78 @@ Route::middleware(['auth'])->group(function () {
         Route::get('report/income', [ReportController::class, 'incomeIndex'])->name('report.income_index');
         Route::get('report/income_get_data', [ReportController::class, 'incomeGetData'])->name('report.income_get_data');
         Route::post('report/income_filter', [ReportController::class, 'incomeFilter'])->name('report.income_filter');
+
+    // product shop
+    Route::get('product_shop', [ProductShopController::class, 'index'])->name('product_shop.index');
+    Route::get('product_shop/create', [ProductShopController::class, 'create'])->name('product_shop.create');
+    Route::post('product_shop/store', [ProductShopController::class, 'store'])->name('product_shop.store');
+    Route::post('product_shop/update', [ProductShopController::class, 'update'])->name('product_shop.update');
+    Route::get('product_shop/{id}/edit', [ProductShopController::class, 'edit'])->name('product_shop.edit');
+    Route::get('product_shop/{id}/delete_btn', [ProductShopController::class, 'deleteBtn'])->name('product_shop.delete_btn');
+    Route::post('product_shop/delete', [ProductShopController::class, 'delete'])->name('product_shop.delete');
+
+    // transaction shop
+
+        // receive product
+        Route::get('shop_transaction/received_product', [ReceiveProductController::class, 'index'])->name('received_product.index');
+        Route::get('shop_transaction/received_product/create', [ReceiveProductController::class, 'create'])->name('received_product.create');
+        Route::post('shop_transaction/received_product/store', [ReceiveProductController::class, 'store'])->name('received_product.store');
+        Route::post('shop_transaction/received_product/update', [ReceiveProductController::class, 'update'])->name('received_product.update');
+        Route::get('shop_transaction/received_product/{id}/edit', [ReceiveProductController::class, 'edit'])->name('received_product.edit');
+        Route::get('shop_transaction/received_product/{id}/delete_btn', [ReceiveProductController::class, 'deleteBtn'])->name('received_product.delete_btn');
+        Route::post('shop_transaction/received_product/delete', [ReceiveProductController::class, 'delete'])->name('received_product.delete');
+
+        // sales
+        Route::get('shop_transaction/sales', [SalesController::class, 'index'])->name('sales.index');
+        Route::get('shop_transaction/sales/{id}/show', [SalesController::class, 'show'])->name('sales.show');
+        Route::get('shop_transaction/sales/{id}/delete_btn', [SalesController::class, 'deleteBtn'])->name('sales.delete_btn');
+        Route::post('shop_transaction/sales/delete', [SalesController::class, 'delete'])->name('sales.delete');
+
+        // invoice
+        Route::get('shop_transaction/invoice', [InvoiceController::class, 'index'])->name('invoice.index');
+        Route::get('shop_transaction/invoice/{id}/show', [InvoiceController::class, 'show'])->name('invoice.show');
+        Route::get('shop_transaction/invoice/{id}/delete_btn', [InvoiceController::class, 'deleteBtn'])->name('invoice.delete_btn');
+        Route::post('shop_transaction/invoice/delete', [InvoiceController::class, 'delete'])->name('invoice.delete');
+
+    // customer
+    Route::get('customer', [CustomerController::class, 'index'])->name('customer.index');
+    Route::post('customer/store', [CustomerController::class, 'store'])->name('customer.store');
+    Route::post('customer/update', [CustomerController::class, 'update'])->name('customer.update');
+    Route::get('customer/{id}/edit', [CustomerController::class, 'edit'])->name('customer.edit');
+    Route::get('customer/{id}/delete_btn', [CustomerController::class, 'deleteBtn'])->name('customer.delete_btn');
+    Route::post('customer/delete', [CustomerController::class, 'delete'])->name('customer.delete');
+
+    // cashier
+        // cash
+        Route::get('cashier', [CashierController::class, 'index'])->name('cashier.index');
+        Route::post('cashier/product', [CashierController::class, 'getProduct'])->name('cashier.product');
+        Route::post('cashier/sales-save', [CashierController::class, 'salesSave'])->name('cashier.sales_save');
+        Route::post('cashier/print', [CashierController::class, 'print'])->name('cashier.print');
+        Route::delete('cashier/{id}/delete', [CashierController::class, 'delete'])->name('cashier.delete');
+
+        // credit
+        Route::get('cashier/credit', [CashierController::class, 'credit'])->name('cashier.credit');
+
+    // home
+    // Route::post('home/product', [HomeController::class, 'getProduct'])->name('home.product');
+    // Route::post('home/sales-save', [HomeController::class, 'salesSave'])->name('home.sales_save');
+
+    // inventory stock
+    // Route::get('inventory_stock', [InventoryStockController::class, 'index'])->name('inventory_stock.index');
+    // Route::get('inventory_stock/get_data', [InventoryStockController::class, 'getData'])->name('inventory_stock.get_data');
+    // Route::get('inventory_stock/low', [InventoryStockController::class, 'low'])->name('inventory_stock.low');
+    // Route::get('inventory_stock/empty', [InventoryStockController::class, 'empty'])->name('inventory_stock.empty');
+
+    // shop stock
+    // Route::get('shop_stock', [ShopStockController::class, 'index'])->name('shop_stock.index');
+    // Route::get('shop_stock/get_data', [ShopStockController::class, 'getData'])->name('shop_stock.get_data');
+    // Route::get('shop_stock/low', [ShopStockController::class, 'low'])->name('shop_stock.low');
+    // Route::get('shop_stock/empty', [ShopStockController::class, 'empty'])->name('shop_stock.empty');
+
+    // shop stock
+    // Route::get('shop_stock', [ShopStockController::class, 'index'])->name('shop_stock.index');
+    // Route::get('shop_stock/get_data', [ShopStockController::class, 'getData'])->name('shop_stock.get_data');
+    // Route::get('shop_stock/low', [ShopStockController::class, 'low'])->name('shop_stock.low');
+    // Route::get('shop_stock/empty', [ShopStockController::class, 'empty'])->name('shop_stock.empty');
+
 });

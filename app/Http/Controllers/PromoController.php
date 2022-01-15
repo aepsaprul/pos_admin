@@ -18,9 +18,10 @@ class PromoController extends Controller
     {
         $promo = new Promo;
         $promo->promo_name = $request->promo_name;
+        $promo->pay_method = $request->pay_method;
         $promo->discount_value = $request->discount_value;
         $promo->coupon_code = $request->coupon_code;
-        $promo->minimun_order = $request->minimun_order;
+        $promo->minimum_order = $request->minimum_order;
         $promo->publish = $request->publish;
         $promo->save();
 
@@ -32,10 +33,14 @@ class PromoController extends Controller
     public function edit($id)
     {
         $promo = Promo::find($id);
-        $publish = $promo->publish;
 
         return response()->json([
-            'publish' => $publish
+            'id' => $promo->id,
+            'promo_name' => $promo->promo_name,
+            'pay_method' => $promo->pay_method,
+            'discount_value' => $promo->discount_value,
+            'coupon_code' => $promo->coupon_code,
+            'minimum_order' => $promo->minimum_order
         ]);
     }
 
@@ -43,9 +48,10 @@ class PromoController extends Controller
     {
         $promo = Promo::find($id);
         $promo->promo_name = $request->promo_name;
+        $promo->pay_method = $request->pay_method;
         $promo->discount_value = $request->discount_value;
         $promo->coupon_code = $request->coupon_code;
-        $promo->minimun_order = $request->minimun_order;
+        $promo->minimum_order = $request->minimum_order;
         $promo->publish = $request->publish;
         $promo->save();
 
@@ -71,6 +77,17 @@ class PromoController extends Controller
 
         return response()->json([
             'status' => "success"
+        ]);
+    }
+
+    public function publish(Request $request, $id)
+    {
+        $promo = Promo::find($id);
+        $promo->publish = $request->publish;
+        $promo->save();
+
+        return response()->json([
+            'status' => 'success'
         ]);
     }
 }

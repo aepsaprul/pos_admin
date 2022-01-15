@@ -16,6 +16,7 @@ class CreatePromosTable extends Migration
         Schema::create('promos', function (Blueprint $table) {
             $table->id();
             $table->string('promo_name', 100)->nullable();
+            $table->string('pay_method', 50)->nullable();
             $table->double('discount_value')->nullable();
             $table->string('coupon_code', 50)->nullable();
             $table->double('minimum_order')->nullable();

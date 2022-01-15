@@ -107,8 +107,8 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <form id="form_create">
-                <div class="modal-header" style="background-color: #32a893;">
-                    <h5 class="modal-title text-white">Tambah Supplier</h5>
+                <div class="modal-header">
+                    <h5 class="modal-title">Tambah Supplier</h5>
                     <button
                         type="button"
                         class="close"
@@ -135,13 +135,17 @@
                     </div>
                     <div class="mb-3">
                         <div class="form-floating">
-                            <textarea id="create_address" class="form-control form-control-sm" name="create_address" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></textarea>
                             <label for="floatingTextarea2">Alamat</label>
+                            <textarea id="create_address" class="form-control form-control-sm" name="create_address" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></textarea>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="border-0 text-white" style="background-color: #32a893; padding: 5px 10px;"><i class="fa fa-save"></i> Simpan</button>
+                    <button class="btn btn-primary btn-create-spinner" disabled style="width: 120px; display: none;">
+                        <span class="spinner-grow spinner-grow-sm"></span>
+                        Loading..
+                    </button>
+                    <button type="submit" class="btn btn-primary btn-create-save" style="width: 120px;"><i class="fa fa-save"></i> Simpan</button>
                 </div>
             </form>
         </div>
@@ -157,8 +161,8 @@
                 {{-- id  --}}
                 <input type="hidden" id="edit_supplier_id" name="edit_supplier_id">
 
-                <div class="modal-header" style="background-color: #32a893;">
-                    <h5 class="modal-title text-white">Ubah Supplier</h5>
+                <div class="modal-header">
+                    <h5 class="modal-title">Ubah Supplier</h5>
                     <button
                         type="button"
                         class="close"
@@ -185,13 +189,17 @@
                     </div>
                     <div class="mb-3">
                         <div class="form-floating">
-                            <textarea id="edit_address" class="form-control form-control-sm" name="edit_address" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></textarea>
                             <label for="floatingTextarea2">Alamat</label>
+                            <textarea id="edit_address" class="form-control form-control-sm" name="edit_address" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></textarea>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="border-0 text-white" style="background-color: #32a893; padding: 5px 10px;"><i class="fa fa-save"></i> Perbaharui</button>
+                    <button class="btn btn-primary btn-edit-spinner" disabled style="width: 130px; display: none;">
+                        <span class="spinner-grow spinner-grow-sm"></span>
+                        Loading..
+                    </button>
+                    <button type="submit" class="btn btn-primary btn-edit-save" style="width: 130px;"><i class="fa fa-save"></i> Perbaharui</button>
                 </div>
             </form>
         </div>
@@ -211,21 +219,14 @@
                     <h5 class="modal-title">Yakin akan dihapus <span class="delete_title text-decoration-underline"></span> ?</h5>
                 </div>
                 <div class="modal-footer justify-content-between">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal"><span aria-hidden="true">Tidak</span></button>
-                    <button type="submit" class="btn btn-primary text-center" style="width: 100px;">Ya</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" style="width: 120px;"><span aria-hidden="true">Tidak</span></button>
+                    <button class="btn btn-primary btn-delete-spinner" disabled style="width: 120px; display: none;">
+                        <span class="spinner-grow spinner-grow-sm"></span>
+                        Loading..
+                    </button>
+                    <button type="submit" class="btn btn-primary btn-delete-yes text-center" style="width: 120px;">Ya</button>
                 </div>
             </form>
-        </div>
-    </div>
-</div>
-
-{{-- modal proses berhasil  --}}
-<div class="modal fade modal-proses" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-body">
-                Proses sukses.... <i class="fa fa-check" style="color: #32a893;"></i>
-            </div>
         </div>
     </div>
 </div>
@@ -266,8 +267,6 @@
         $('#form_create').submit(function(e) {
             e.preventDefault();
 
-            $('.modal-create').modal('hide');
-
             var formData = {
                 supplier_code: $('#create_supplier_code').val(),
                 supplier_name: $('#create_supplier_name').val(),
@@ -281,11 +280,24 @@
                 url: '{{ URL::route('supplier.store') }} ',
                 type: 'POST',
                 data: formData,
+                beforeSend: function() {
+                    $('.btn-create-spinner').css("display", "block");
+                    $('.btn-create-save').css("display", "none");
+                },
                 success: function(response) {
-                    $('.modal-proses').modal('show');
+                    var a = new PNotify({
+                        title: 'Success',
+                        text: 'Data berhasil ditambah',
+                        type: 'success',
+                        styling: 'bootstrap3'
+                    });
                     setTimeout(() => {
                         window.location.reload(1);
                     }, 1000);
+                },
+                error: function(xhr, status, error){
+                    var errorMessage = xhr.status + ': ' + xhr.statusText
+                    alert('Error - ' + errorMessage);
                 }
             });
         });
@@ -326,8 +338,6 @@
         $('#form_edit').submit(function(e) {
             e.preventDefault();
 
-            $('.modal-edit').modal('hide');
-
             var formData = {
                 id: $('#edit_supplier_id').val(),
                 supplier_code: $('#edit_supplier_code').val(),
@@ -342,11 +352,25 @@
                 url: '{{ URL::route('supplier.update') }}',
                 type: 'POST',
                 data: formData,
+                beforeSend: function() {
+                    $('.btn-edit-spinner').css("display", "block");
+                    $('.btn-edit-save').css("display", "none");
+                },
                 success: function(response) {
-                    $('.modal-proses').modal('show');
+                    var a = new PNotify({
+                        title: 'Success',
+                        text: 'Data berhasil ditambah',
+                        type: 'success',
+                        styling: 'bootstrap3'
+                    });
+
                     setTimeout(() => {
                         window.location.reload(1);
                     }, 1000);
+                },
+                error: function(xhr, status, error){
+                    var errorMessage = xhr.status + ': ' + xhr.statusText
+                    alert('Error - ' + errorMessage);
                 }
             });
         });
@@ -389,11 +413,25 @@
                 url: '{{ URL::route('supplier.delete') }}',
                 type: 'POST',
                 data: formData,
+                beforeSend: function() {
+                    $('.btn-delete-spinner').css("display", "block");
+                    $('.btn-delete-yes').css("display", "none");
+                },
                 success: function(response) {
-                    $('.modal-proses').modal('show');
+                    var a = new PNotify({
+                        title: 'Success',
+                        text: 'Data berhasil ditambah',
+                        type: 'success',
+                        styling: 'bootstrap3'
+                    });
+
                     setTimeout(() => {
                         window.location.reload(1);
                     }, 1000);
+                },
+                error: function(xhr, status, error){
+                    var errorMessage = xhr.status + ': ' + xhr.statusText
+                    alert('Error - ' + errorMessage);
                 }
             });
         });
