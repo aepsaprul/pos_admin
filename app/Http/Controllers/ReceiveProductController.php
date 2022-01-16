@@ -59,7 +59,9 @@ class ReceiveProductController extends Controller
         //     $new_stock->save();
         // }
 
-        $stock = ProductShop::where('product_id', $request->product_id)->first();
+        $stock = ProductShop::where('product_id', $request->product_id)
+            ->where('shop_id', Auth::user()->employee->shop_id)
+            ->first();
         $stock->stock = $stock->stock + $request->quantity;
         $stock->save();
 

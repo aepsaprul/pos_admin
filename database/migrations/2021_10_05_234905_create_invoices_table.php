@@ -20,6 +20,7 @@ class CreateInvoicesTable extends Migration
             $table->double('bid')->nullable();
             $table->date('date_recorded')->nullable();
             $table->string('code', 25)->nullable();
+            $table->string('pay_method', 50)->nullable();
             $table->integer('user_id')->nullable();
             $table->integer('shop_id')->nullable();
             $table->timestamps();

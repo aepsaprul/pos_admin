@@ -260,6 +260,7 @@ Route::middleware(['auth'])->group(function () {
         Route::post('cashier/sales-save', [CashierController::class, 'salesSave'])->name('cashier.sales_save');
         Route::post('cashier/print', [CashierController::class, 'print'])->name('cashier.print');
         Route::delete('cashier/{id}/delete', [CashierController::class, 'delete'])->name('cashier.delete');
+        Route::post('cashier/promo', [CashierController::class, 'promo'])->name('cashier.promo');
 
         // credit
         Route::get('cashier/credit', [CashierController::class, 'credit'])->name('cashier.credit');

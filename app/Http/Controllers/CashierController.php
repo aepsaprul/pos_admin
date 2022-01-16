@@ -6,6 +6,7 @@ use App\Models\Customer;
 use App\Models\Invoice;
 use App\Models\Product;
 use App\Models\ProductShop;
+use App\Models\Promo;
 use App\Models\ReceiveProduct;
 use App\Models\Sales;
 use App\Models\ShopStock;
@@ -195,5 +196,16 @@ class CashierController extends Controller
             return view('page_403');
         }
 
+    }
+
+    public function promo(Request $request)
+    {
+        $promo = Promo::where('pay_method', $request->pay_method)
+            ->where('publish', 'y')
+            ->first();
+
+        return response()->json([
+            'promo' => $promo
+        ]);
     }
 }
