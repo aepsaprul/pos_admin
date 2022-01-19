@@ -153,6 +153,10 @@ class CashierController extends Controller
             $invoice->customer_id = $request->customer_id;
             $invoice->discount = $request->discount;
         }
+        if ($request->promo) {
+            $invoice->promo = $request->promo;
+            $invoice->coupon_code = $request->coupon_code;
+        }
 
         $invoice->bid = $request->bid;
         $invoice->total_amount = $request->total_amount;

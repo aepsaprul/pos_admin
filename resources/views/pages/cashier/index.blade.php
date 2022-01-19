@@ -45,7 +45,7 @@
     <div class="container body">
         <div class="main_container">
         <!-- page content -->
-        <div class="col-md-12">
+        <div class="col-md-12 page-content">
                 <div class="x_title text-center mt-2">
                     <a
                         href="{{ route('home') }}"
@@ -234,58 +234,58 @@
                 </table>
             </div>
 
-            {{-- invoice --}}
-            <div class="container-fluid invoice">
-                <div class="row">
-                    <div class="col-md-4 col-sm-4 col-4 border border-1">
-                        <h3 class="h3 text-center">Nama Toko</h3>
-                        <p class="text-center">Jl. Pahlawan Tanpa Tanda Jasa No 2 Timur Masjid Agung</p>
-                        <div class="row">
-                            <div class="col-md-6 col-sm-6 col-6">
-                                <span>Kode Nota</span>
-                                <span class="invoice_code"></span>
-                            </div>
-                            <div class="col-md-6 col-sm-6 col-6 text-end">
-                                <span class="invoice_date"></span>
-                                <span class="invoice_time"></span>
-                            </div>
+        </div>
+        <!-- /page content -->
+        {{-- invoice --}}
+        <div class="container-fluid invoice">
+            <div class="row">
+                <div class="col-md-4 col-sm-4 col-4 border border-1">
+                    <h3 class="h3 text-center">Nama Toko</h3>
+                    <p class="text-center">Jl. Pahlawan Tanpa Tanda Jasa No 2 Timur Masjid Agung</p>
+                    <div class="row">
+                        <div class="col-md-6 col-sm-6 col-6">
+                            <span>Kode Nota</span>
+                            <span class="invoice_code"></span>
                         </div>
-                        <hr style="border: 2px dashed #000;">
-                        <div class="row">
-                            <div class="col-md-12 col-sm-12 col-12 invoice_data">
-                                <table width="100%">
-                                    @foreach ($sales as $key => $item)
-                                    <tr>
-                                        <td>{{ $item->product->product_name }}</td>
-                                        <td>{{ rupiah($item->quantity) }}</td>
-                                        <td class="text-end">{{ rupiah($item->product->product_price_selling * $item->quantity) }}</td>
-                                    </tr>
-                                    @endforeach
-                                    <tr class="nego_layout">
-                                        {{-- content in jquery --}}
-                                    </tr>
-                                    <tr>
-                                        <td class="text-end">Total</td>
-                                        <td>:</td>
-                                        <td class="text-end print_total_price" style="border-top: 1px dashed #000;">{{ rupiah($total_price) }}</td>
-                                    </tr>
-                                </table>
-                            </div>
+                        <div class="col-md-6 col-sm-6 col-6 text-end">
+                            <span class="invoice_date"></span>
+                            <span class="invoice_time"></span>
                         </div>
-                        <hr style="border: 2px dashed #000;">
-                        <div class="row">
-                            <div class="col-md-12 col-sm-12 col-12 text-center footer">
-                                <span class="text-center">Telp: 081234567890</span><br>
-                                <span class="text-center">Wa: 081234567890</span><br>
-                                <span class="text-center">Email: toko@gmail.com</span>
-                            </div>
+                    </div>
+                    <hr style="border: 2px dashed #000;">
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12 col-12 invoice_data">
+                            <table width="100%">
+                                @foreach ($sales as $key => $item)
+                                <tr>
+                                    <td>{{ $item->product->product_name }}</td>
+                                    <td>{{ rupiah($item->quantity) }}</td>
+                                    <td class="text-end">{{ rupiah($item->product->product_price_selling * $item->quantity) }}</td>
+                                </tr>
+                                @endforeach
+                                <tr class="nego_layout">
+                                    {{-- content in jquery --}}
+                                </tr>
+                                <tr>
+                                    <td class="text-end">Total</td>
+                                    <td>:</td>
+                                    <td class="text-end print_total_price" style="border-top: 1px dashed #000;">{{ rupiah($total_price) }}</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <hr style="border: 2px dashed #000;">
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12 col-12 text-center footer">
+                            <span class="text-center">Telp: 081234567890</span><br>
+                            <span class="text-center">Wa: 081234567890</span><br>
+                            <span class="text-center">Email: toko@gmail.com</span>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- /page content -->
-        </div>
+    </div>
     </div>
 
     <!-- jQuery -->
@@ -548,6 +548,7 @@
                     success: function(response) {
                         if (response.promo != null) {
                             var value_promo = "" +
+                                "<input type=\"hidden\" name=\"coupon_code\" id=\"coupon_code\" value=\"" + response.promo.coupon_code + "\">" +
                                 "<label class=\"col-md-4 col-sm-4  control-label\">Promo</label>" +
                                 "<div class=\"col-md-8 col-sm-8 \">" +
                                     "<label>" +
@@ -561,8 +562,6 @@
                             var promo_rp = format_rupiah(promo);
                             $('.total_price_show').text(promo_rp);
                             $('#total_price').val(promo);
-                            // alert(total_sales);
-
                         }
                     },
                     error: function(xhr, status, error){
@@ -646,6 +645,8 @@
                         bid: $('#bid').val().replace(/\./g,''),
                         total_amount: $('#total_price').val(),
                         customer_id: $('#customer_id').val(),
+                        promo: $('#promo').val(),
+                        coupon_code: $('#coupon_code').val(),
                         discount: $('#discount').val(),
                         _token: CSRF_TOKEN
                     }
@@ -655,12 +656,11 @@
                         type: 'POST',
                         data: formData,
                         success: function(response) {
-                            console.log(response);
                             $('.invoice_code').append(response.invoice_code);
                             $('.invoice_date').append(response.invoice_date);
                             $('.invoice_time').append(response.invoice_time);
 
-                            $('.justify-content-center').hide();
+                            $('.page-content').hide();
                             $('nav').hide();
                             $('.invoice').show();
                             window.print();
